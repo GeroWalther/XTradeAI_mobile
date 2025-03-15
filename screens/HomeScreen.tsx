@@ -1,3 +1,4 @@
+import React from 'react';
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { AIAnalysis } from '../components/AIAnalysis';
 import { useTheme } from '../providers/ThemeProvider';
