@@ -1,26 +1,51 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
+export const COLORS = {
+  // Primary colors
+  primary: '#232a4d',
+  primaryDark: '#1a1f3c',
+  primaryLight: '#2d3867',
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+  // Accent colors
+  accent: '#61dafb',
+  accentDark: '#0056b3',
+  accentLight: '#93c5fd',
 
-export const Colors = {
-  light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
-  },
-  dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
-  },
+  // Text colors
+  textPrimary: '#ffffff',
+  textSecondary: '#e0e0e0',
+  textMuted: '#9ca3af',
+
+  // Status colors
+  success: '#34d399',
+  error: '#f87171',
+  warning: '#fde68a',
+  info: '#93c5fd',
+
+  // Border colors
+  borderSuccess: '#34d399',
+  borderError: '#dc2626',
+  borderWarning: '#eab308',
+  borderInfo: '#3b82f6',
+  borderPurple: '#4f46e5',
+
+  // Background colors
+  bgSuccess: 'rgba(52, 211, 153, 0.2)',
+  bgError: 'rgba(220, 38, 38, 0.2)',
+  bgWarning: 'rgba(234, 179, 8, 0.2)',
+  bgInfo: 'rgba(59, 130, 246, 0.2)',
+  bgPurple: 'rgba(79, 70, 229, 0.2)',
+
+  // Button states
+  buttonPrimary: '#007AFF',
+  buttonDisabled: '#4a4a4a',
+  buttonLoading: '#0056b3',
+
+  // Direction colors
+  longDirection: '#34d399',
+  shortDirection: '#f87171',
+
+  // Misc
+  white: '#ffffff',
+  black: '#000000',
+  transparent: 'transparent',
+  background: '#1a1f3c',
 };

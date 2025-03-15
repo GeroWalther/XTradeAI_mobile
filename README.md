@@ -1,3 +1,49 @@
+# XTradeAI Mobile App
+
+A React Native application for AI-powered trading analysis and predictions.
+
+## Features
+
+- AI Market Analysis with TanStack Query
+- Real-time trading predictions
+- Support for multiple assets and timeframes
+- Risk assessment and trading strategies
+
+## Environment Setup
+
+Create a `.env` file in the root directory with the following variables:
+
+```
+EXPO_PUBLIC_AI_SERVER_URL=https://api.xtrade-ai.com
+```
+
+## Installation
+
+```bash
+# Install dependencies
+npm install
+
+# Start the development server
+npx expo start
+```
+
+## Project Structure
+
+- `app/` - Main application screens
+- `components/` - Reusable UI components
+- `constants/` - Application constants and environment variables
+- `hooks/` - Custom React hooks
+- `services/` - API services
+- `types/` - TypeScript type definitions
+- `providers/` - Context providers
+
+## Technologies Used
+
+- React Native with Expo
+- TanStack Query (React Query) for data fetching
+- TypeScript for type safety
+- Axios for API requests
+
 # Welcome to your Expo app 👋
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
