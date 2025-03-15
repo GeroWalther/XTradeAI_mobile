@@ -48,6 +48,9 @@ export interface MarketAnalysis {
   mock?: boolean;
 }
 
+// Hardcoded endpoint
+const ANALYSIS_ENDPOINT = '/api/advanced-market-analysis';
+
 // Get market analysis
 export const advancedMarketAnalysis = async (
   asset: string,
@@ -61,10 +64,16 @@ export const advancedMarketAnalysis = async (
   isRateLimit?: boolean;
 }> => {
   try {
+    console.log('Starting market analysis request...');
+    console.log('Endpoint:', ANALYSIS_ENDPOINT);
+    console.log('Request payload:', { asset, term, riskLevel });
+
     const response = await apiClient.post<ApiResponse<MarketAnalysis>>(
-      API_ENDPOINTS.marketAnalysis,
+      ANALYSIS_ENDPOINT,
       { asset, term, riskLevel }
     );
+
+    console.log('Raw response:', response.data);
 
     return {
       status: 'success',
@@ -72,6 +81,12 @@ export const advancedMarketAnalysis = async (
       mock: response.data.data.mock || false,
     };
   } catch (error: any) {
+    console.error('Market analysis error:', {
+      message: error.message,
+      response: error.response?.data,
+      status: error.response?.status,
+    });
+
     // Check for rate limit errors
     const isRateLimit =
       error.response?.status === 429 ||

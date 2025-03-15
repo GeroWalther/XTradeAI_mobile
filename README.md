@@ -14,7 +14,7 @@ A React Native application for AI-powered trading analysis and predictions.
 Create a `.env` file in the root directory with the following variables:
 
 ```
-EXPO_PUBLIC_AI_SERVER_URL=https://api.xtrade-ai.com
+
 ```
 
 ## Installation

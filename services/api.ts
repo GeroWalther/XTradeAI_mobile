@@ -1,23 +1,24 @@
 import axios from 'axios';
-import { AI_SERVER_URL } from '../constants/env';
+
+// Hardcoded URL
+const BASE_URL = 'http://51.92.33.198:5005';
+console.log('Using hardcoded URL:', BASE_URL);
 
 // Create axios instance with default config
 const apiClient = axios.create({
-  baseURL: AI_SERVER_URL,
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
   timeout: 10000, // 10 seconds
 });
 
-// Request interceptor for adding auth token, etc.
+// Request interceptor for logging requests
 apiClient.interceptors.request.use(
   (config) => {
-    // You can add auth token here if needed
-    // const token = getToken();
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+    const fullUrl = `${config.baseURL || BASE_URL}${config.url || ''}`;
+    console.log('Making request to:', fullUrl);
+    console.log('Request data:', config.data);
     return config;
   },
   (error) => {
@@ -25,23 +26,30 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Response interceptor for handling errors
+// Response interceptor for handling errors and logging responses
 apiClient.interceptors.response.use(
   (response) => {
+    console.log('Successful response:', {
+      status: response.status,
+      data: response.data,
+    });
     return response;
   },
   (error) => {
-    // Handle specific error codes
     if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
-      console.error('API Error:', error.response.status, error.response.data);
+      console.error('API Error Response:', {
+        status: error.response.status,
+        data: error.response.data,
+        headers: error.response.headers,
+      });
     } else if (error.request) {
-      // The request was made but no response was received
-      console.error('Network Error:', error.request);
+      console.error('Network Error - No Response:', {
+        request: error.request._url,
+        method: error.request._method,
+        error: error.message,
+      });
     } else {
-      // Something happened in setting up the request that triggered an Error
-      console.error('Request Error:', error.message);
+      console.error('Request Setup Error:', error.message);
     }
     return Promise.reject(error);
   }

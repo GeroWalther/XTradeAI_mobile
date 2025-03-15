@@ -1,8 +1,11 @@
 // Environment variables
-export const AI_SERVER_URL =
-  process.env.EXPO_PUBLIC_AI_SERVER_URL || 'https://api.example.com';
+const SERVER_URL = 'http://51.92.33.198:5005';
+export const AI_SERVER_URL = SERVER_URL;
+
+console.log('Environment URL:', process.env.EXPO_PUBLIC_AI_SERVER_URL);
+console.log('Using Server URL:', SERVER_URL);
 
 // API endpoints
 export const API_ENDPOINTS = {
-  marketAnalysis: '/market-analysis',
+  marketAnalysis: '/api/advanced-market-analysis',
 };
