@@ -7,6 +7,7 @@ import {
   ActivityIndicator,
   ScrollView,
   SafeAreaView,
+  Platform,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useMarketAnalysis } from '../hooks/useMarketAnalysis';
@@ -17,25 +18,6 @@ import { Card } from './ui/Card';
 
 export const AIAnalysis = () => {
   const COLORS = useTheme();
-
-  // Use our custom hook
-  const {
-    analyzeMarket,
-    isLoading,
-    isError,
-    error,
-    data: analysis,
-    isMockData,
-    currentPrice,
-    priceValidation,
-    cooldownActive,
-    cooldownTime,
-  } = useMarketAnalysis();
-
-  // Add state for user selections
-  const [selectedAsset, setSelectedAsset] = useState('Nasdaq');
-  const [selectedTerm, setSelectedTerm] = useState('Swing trade');
-  const [selectedRiskLevel, setSelectedRiskLevel] = useState('aggressive');
 
   // Available options for dropdowns
   const assetOptions = [
@@ -58,6 +40,27 @@ export const AIAnalysis = () => {
     { value: 'moderate', label: 'Moderate' },
     { value: 'aggressive', label: 'Aggressive' },
   ];
+
+  // Add state for user selections
+  const [selectedAsset, setSelectedAsset] = useState(assetOptions[0].value);
+  const [selectedTerm, setSelectedTerm] = useState(termOptions[0].value);
+  const [selectedRiskLevel, setSelectedRiskLevel] = useState(
+    riskLevelOptions[0].value
+  );
+
+  // Use our custom hook
+  const {
+    analyzeMarket,
+    isLoading,
+    isError,
+    error,
+    data: analysis,
+    isMockData,
+    currentPrice,
+    priceValidation,
+    cooldownActive,
+    cooldownTime,
+  } = useMarketAnalysis();
 
   // Handle analyze market
   const handleAnalyzeMarket = () => {
@@ -185,12 +188,17 @@ export const AIAnalysis = () => {
             selectedValue={selectedValue}
             onValueChange={onValueChange}
             enabled={!isLoading && !cooldownActive}
-            style={styles(COLORS).picker}>
+            itemStyle={styles(COLORS).pickerItemStyle}
+            style={[
+              styles(COLORS).picker,
+              Platform.OS === 'ios' && styles(COLORS).pickerIOS,
+            ]}>
             {items.map((item) => (
               <Picker.Item
                 key={item.value}
                 label={item.label}
                 value={item.value}
+                color={Platform.OS === 'ios' ? '#000000' : COLORS.textPrimary}
               />
             ))}
           </Picker>
@@ -416,7 +424,7 @@ const styles = (COLORS: any) =>
       lineHeight: 20,
     },
     selectionsContainer: {
-      marginBottom: 16,
+      marginBottom: 12,
     },
     pickerContainer: {
       marginBottom: 12,
@@ -427,13 +435,24 @@ const styles = (COLORS: any) =>
       fontSize: 16,
     },
     pickerWrapper: {
-      backgroundColor: COLORS.primaryLight,
+      backgroundColor: Platform.OS === 'ios' ? '#FFFFFF' : COLORS.primaryLight,
       borderRadius: 8,
       overflow: 'hidden',
+      borderWidth: 1,
+      borderColor: COLORS.borderPrimary,
+      marginHorizontal: Platform.OS === 'ios' ? 0 : 0,
     },
     picker: {
-      color: COLORS.textPrimary,
-      height: 50,
+      color: Platform.OS === 'ios' ? '#000000' : COLORS.textPrimary,
+      height: Platform.OS === 'ios' ? 80 : 50,
+      width: '100%',
+    },
+    pickerIOS: {
+      backgroundColor: COLORS.accentLight,
+    },
+    pickerItemStyle: {
+      fontSize: 16,
+      height: 80,
     },
     errorContainer: {
       backgroundColor: COLORS.bgError,
