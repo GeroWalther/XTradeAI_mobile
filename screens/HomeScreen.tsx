@@ -2,9 +2,16 @@ import React from 'react';
 import { StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { AIAnalysis } from '../components/AIAnalysis';
 import { useTheme } from '../providers/ThemeProvider';
-
+import { useSubscription } from '../providers/SubscriptionProvider';
+import { useNavigation } from '@react-navigation/native';
 export default function HomeScreen() {
   const COLORS = useTheme();
+
+  const { activePaidUser } = useSubscription();
+  const navigation = useNavigation<any>();
+  if (!activePaidUser) {
+    navigation.navigate('Onboarding');
+  }
 
   return (
     <SafeAreaView style={styles(COLORS).container}>
