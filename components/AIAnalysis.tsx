@@ -198,7 +198,11 @@ export const AIAnalysis = () => {
                 key={item.value}
                 label={item.label}
                 value={item.value}
-                color={Platform.OS === 'ios' ? '#000000' : COLORS.textPrimary}
+                color={
+                  Platform.OS === 'ios'
+                    ? COLORS.textPrimary
+                    : COLORS.textPrimary
+                }
               />
             ))}
           </Picker>
@@ -210,52 +214,50 @@ export const AIAnalysis = () => {
   return (
     <SafeAreaView style={styles(COLORS).container}>
       <ScrollView contentContainerStyle={styles(COLORS).scrollContent}>
-        <View style={styles(COLORS).card}>
+        <View style={styles(COLORS).mainContainer}>
           <Text style={styles(COLORS).title}>AI Market Analysis</Text>
-          <View style={styles(COLORS).formContainer}>
-            <Text style={styles(COLORS).description}>
-              Get advanced market insights powered by our AI algorithms. Analyze
-              trends, patterns, and potential trading opportunities.
-            </Text>
+          <Text style={styles(COLORS).description}>
+            Get advanced market insights powered by our AI algorithms. Analyze
+            trends, patterns, and potential trading opportunities.
+          </Text>
 
-            {/* Selection dropdowns */}
-            <View style={styles(COLORS).selectionsContainer}>
-              {renderPicker(
-                selectedAsset,
-                setSelectedAsset,
-                assetOptions,
-                'Asset'
-              )}
-              {renderPicker(
-                selectedTerm,
-                setSelectedTerm,
-                termOptions,
-                'Trading Term'
-              )}
-              {renderPicker(
-                selectedRiskLevel,
-                setSelectedRiskLevel,
-                riskLevelOptions,
-                'Risk Level'
-              )}
-            </View>
-
-            {/* Analyze button */}
-            <Button
-              title={
-                isLoading
-                  ? 'Analyzing...'
-                  : cooldownActive
-                  ? `Cooldown: ${cooldownTime}s`
-                  : 'Run AI Analysis'
-              }
-              onPress={handleAnalyzeMarket}
-              disabled={isLoading || cooldownActive}
-              isLoading={isLoading}
-              variant='primary'
-              fullWidth
-            />
+          {/* Selection dropdowns */}
+          <View style={styles(COLORS).selectionsContainer}>
+            {renderPicker(
+              selectedAsset,
+              setSelectedAsset,
+              assetOptions,
+              'Asset'
+            )}
+            {renderPicker(
+              selectedTerm,
+              setSelectedTerm,
+              termOptions,
+              'Trading Term'
+            )}
+            {renderPicker(
+              selectedRiskLevel,
+              setSelectedRiskLevel,
+              riskLevelOptions,
+              'Risk Level'
+            )}
           </View>
+
+          {/* Analyze button */}
+          <Button
+            title={
+              isLoading
+                ? 'Analyzing...'
+                : cooldownActive
+                ? `Cooldown: ${cooldownTime}s`
+                : 'Run AI Analysis'
+            }
+            onPress={handleAnalyzeMarket}
+            disabled={isLoading || cooldownActive}
+            isLoading={isLoading}
+            variant='primary'
+            fullWidth
+          />
 
           {/* Error message */}
           {isError && error instanceof Error && (
@@ -291,7 +293,7 @@ export const AIAnalysis = () => {
 
           {/* Analysis results */}
           {analysis && !isError && (
-            <Card variant='dark' style={styles(COLORS).resultsContainer}>
+            <View style={styles(COLORS).resultsContainer}>
               {isMockData && (
                 <View style={styles(COLORS).mockDataBanner}>
                   <Text style={styles(COLORS).mockDataText}>
@@ -379,7 +381,7 @@ export const AIAnalysis = () => {
               </View>
 
               {renderTradingStrategy(analysis.trading_strategy)}
-            </Card>
+            </View>
           )}
         </View>
       </ScrollView>
@@ -394,78 +396,73 @@ const styles = (COLORS: any) =>
       backgroundColor: COLORS.background,
     },
     scrollContent: {
+      flexGrow: 1,
+    },
+    mainContainer: {
+      flex: 1,
       padding: 16,
     },
-    card: {
+    title: {
+      fontSize: 28,
+      fontWeight: 'bold',
+      color: COLORS.accent,
+      marginBottom: 12,
+    },
+    description: {
+      color: COLORS.textSecondary,
+      marginBottom: 24,
+      lineHeight: 22,
+      fontSize: 16,
+    },
+    selectionsContainer: {
+      marginBottom: 24,
+    },
+    pickerContainer: {
+      marginBottom: 20,
+    },
+    pickerLabel: {
+      color: COLORS.accent,
+      marginBottom: 8,
+      fontSize: 16,
+      fontWeight: '600',
+      letterSpacing: 0.5,
+    },
+    pickerWrapper: {
       backgroundColor: COLORS.primary,
       borderRadius: 12,
-      padding: 16,
-      shadowColor: COLORS.black,
+      overflow: 'hidden',
+      borderWidth: 1,
+      borderColor: COLORS.accent,
+      shadowColor: COLORS.accent,
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 4,
       elevation: 3,
     },
-    title: {
-      fontSize: 24,
-      fontWeight: 'bold',
-      color: COLORS.accent,
-      marginBottom: 16,
-    },
-    formContainer: {
-      backgroundColor: COLORS.primaryDark,
-      borderRadius: 8,
-      padding: 16,
-      marginBottom: 16,
-    },
-    description: {
-      color: COLORS.textSecondary,
-      marginBottom: 16,
-      lineHeight: 20,
-    },
-    selectionsContainer: {
-      marginBottom: 12,
-    },
-    pickerContainer: {
-      marginBottom: 12,
-    },
-    pickerLabel: {
-      color: COLORS.textSecondary,
-      marginBottom: 8,
-      fontSize: 16,
-    },
-    pickerWrapper: {
-      backgroundColor: Platform.OS === 'ios' ? '#FFFFFF' : COLORS.primaryLight,
-      borderRadius: 8,
-      overflow: 'hidden',
-      borderWidth: 1,
-      borderColor: COLORS.borderPrimary,
-      marginHorizontal: Platform.OS === 'ios' ? 0 : 0,
-    },
     picker: {
-      color: Platform.OS === 'ios' ? '#000000' : COLORS.textPrimary,
-      height: Platform.OS === 'ios' ? 80 : 50,
+      color: COLORS.textPrimary,
       width: '100%',
     },
     pickerIOS: {
-      backgroundColor: COLORS.accentLight,
+      backgroundColor: 'rgba(97, 218, 251, 0.05)', // COLORS.accent with opacity
     },
     pickerItemStyle: {
-      fontSize: 16,
-      height: 80,
+      fontSize: 18,
+      height: 110,
+      color: COLORS.textPrimary,
+      fontWeight: '500',
     },
     errorContainer: {
       backgroundColor: COLORS.bgError,
-      borderWidth: 1,
-      borderColor: COLORS.borderError,
-      borderRadius: 8,
+      borderRadius: 12,
       padding: 16,
-      marginBottom: 16,
+      marginTop: 24,
     },
     errorTitle: {
       color: COLORS.error,
       fontWeight: 'bold',
       marginBottom: 8,
+      fontSize: 16,
     },
     errorDetails: {
       marginTop: 8,
@@ -483,63 +480,57 @@ const styles = (COLORS: any) =>
       marginBottom: 4,
     },
     resultsContainer: {
-      backgroundColor: COLORS.primaryDark,
-      borderRadius: 8,
-      padding: 16,
+      marginTop: 32,
     },
     mockDataBanner: {
       backgroundColor: COLORS.bgWarning,
-      borderWidth: 1,
-      borderColor: COLORS.borderWarning,
-      borderRadius: 8,
+      borderRadius: 12,
       padding: 12,
-      marginBottom: 16,
+      marginBottom: 24,
     },
     mockDataText: {
       color: COLORS.warning,
       fontWeight: 'bold',
     },
     resultsTitle: {
-      fontSize: 20,
+      fontSize: 24,
       fontWeight: 'bold',
       color: COLORS.accent,
-      marginBottom: 16,
+      marginBottom: 24,
     },
     metaContainer: {
       backgroundColor: COLORS.bgPurple,
-      borderWidth: 1,
-      borderColor: COLORS.borderPurple,
-      borderRadius: 8,
-      padding: 12,
-      marginBottom: 16,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 24,
     },
     metaTitle: {
       color: COLORS.info,
       fontWeight: 'bold',
-      marginBottom: 8,
+      marginBottom: 12,
+      fontSize: 16,
     },
     metaText: {
       color: COLORS.textSecondary,
       fontSize: 14,
-      marginBottom: 4,
+      marginBottom: 6,
     },
     currentPriceContainer: {
       backgroundColor: COLORS.bgInfo,
-      borderWidth: 1,
-      borderColor: COLORS.borderInfo,
-      borderRadius: 8,
-      padding: 12,
-      marginBottom: 16,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 24,
     },
     currentPriceLabel: {
       color: COLORS.accentLight,
       fontWeight: 'bold',
+      fontSize: 16,
     },
     currentPriceValue: {
       color: COLORS.textPrimary,
       fontWeight: 'bold',
-      fontSize: 16,
-      marginVertical: 4,
+      fontSize: 24,
+      marginVertical: 8,
     },
     currentPriceNote: {
       color: COLORS.textMuted,
@@ -547,55 +538,63 @@ const styles = (COLORS: any) =>
       marginTop: 4,
     },
     sectionContainer: {
-      marginBottom: 16,
+      marginBottom: 8,
+      backgroundColor: COLORS.primaryDark,
+      borderRadius: 12,
+      padding: 16,
     },
     sectionTitle: {
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: 'bold',
       color: COLORS.accent,
-      marginBottom: 8,
+      marginBottom: 12,
     },
     sectionText: {
       color: COLORS.textSecondary,
-      lineHeight: 20,
+      lineHeight: 22,
+      fontSize: 16,
     },
     driversList: {
-      marginTop: 4,
+      marginTop: 8,
     },
     driverItem: {
       color: COLORS.textSecondary,
-      marginBottom: 4,
-      lineHeight: 20,
+      marginBottom: 8,
+      lineHeight: 22,
+      fontSize: 16,
     },
     strategyContainer: {
       backgroundColor: COLORS.primaryDark,
-      borderRadius: 8,
+      borderRadius: 12,
       padding: 16,
-      marginTop: 16,
+      marginTop: 24,
     },
     strategyHeader: {
-      marginBottom: 8,
+      marginBottom: 12,
     },
     strategyTitle: {
-      fontSize: 18,
+      fontSize: 20,
       fontWeight: 'bold',
       color: COLORS.accent,
     },
     strategySubtitle: {
       color: COLORS.textMuted,
-      fontSize: 12,
+      fontSize: 14,
+      marginTop: 4,
     },
     directionContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: 8,
+      marginBottom: 12,
     },
     directionLabel: {
       color: COLORS.textSecondary,
       fontWeight: '500',
+      fontSize: 16,
     },
     directionValue: {
       fontWeight: 'bold',
+      fontSize: 16,
     },
     longDirection: {
       color: COLORS.longDirection,
@@ -605,57 +604,62 @@ const styles = (COLORS: any) =>
     },
     rationaleText: {
       color: COLORS.textSecondary,
-      marginBottom: 12,
-      lineHeight: 20,
+      marginBottom: 16,
+      lineHeight: 22,
+      fontSize: 16,
     },
     validationWarningContainer: {
       backgroundColor: COLORS.bgWarning,
-      borderWidth: 1,
-      borderColor: COLORS.borderWarning,
-      borderRadius: 8,
-      padding: 12,
-      marginBottom: 16,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 24,
     },
     validationWarningTitle: {
       color: COLORS.warning,
       fontWeight: 'bold',
-      marginBottom: 4,
+      marginBottom: 8,
+      fontSize: 16,
     },
     validationWarningMessage: {
       color: COLORS.warning,
+      fontSize: 14,
     },
     pricePointsContainer: {
-      marginTop: 8,
+      marginTop: 16,
     },
     pricePointCard: {
       backgroundColor: COLORS.primary,
-      borderRadius: 8,
-      padding: 12,
-      marginBottom: 12,
+      borderRadius: 12,
+      padding: 16,
+      marginBottom: 16,
     },
     pricePointTitle: {
       color: COLORS.accent,
-      fontWeight: '500',
-      marginBottom: 4,
+      fontWeight: '600',
+      marginBottom: 8,
+      fontSize: 16,
     },
     stopLossTitle: {
       color: COLORS.error,
-      fontWeight: '500',
-      marginBottom: 4,
+      fontWeight: '600',
+      marginBottom: 8,
+      fontSize: 16,
     },
     takeProfitTitle: {
       color: COLORS.success,
-      fontWeight: '500',
-      marginBottom: 4,
+      fontWeight: '600',
+      marginBottom: 8,
+      fontSize: 16,
     },
     pricePointValue: {
       color: COLORS.textPrimary,
       fontWeight: 'bold',
-      fontSize: 16,
-      marginBottom: 4,
+      fontSize: 20,
+      marginBottom: 8,
     },
     pricePointRationale: {
       color: COLORS.textMuted,
       fontSize: 14,
+      lineHeight: 20,
     },
   });

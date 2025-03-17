@@ -8,7 +8,7 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles(COLORS).container}>
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles(COLORS).scrollContent}>
         <AIAnalysis />
       </ScrollView>
     </SafeAreaView>
@@ -20,5 +20,8 @@ const styles = (COLORS: any) =>
     container: {
       flex: 1,
       backgroundColor: COLORS.background,
+    },
+    scrollContent: {
+      flexGrow: 1,
     },
   });
