@@ -47,5 +47,5 @@ export const COLORS = {
   white: '#ffffff',
   black: '#000000',
   transparent: 'transparent',
-  background: '#1a1f3c',
+  background: '#13203f',
 };

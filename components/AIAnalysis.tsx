@@ -3,8 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
   ScrollView,
   SafeAreaView,
   Platform,
@@ -14,7 +12,6 @@ import { useMarketAnalysis } from '../hooks/useMarketAnalysis';
 import { TradingStrategy } from '../services/marketAnalysisService';
 import { useTheme } from '../providers/ThemeProvider';
 import { Button } from './ui/Button';
-import { Card } from './ui/Card';
 
 export const AIAnalysis = () => {
   const COLORS = useTheme();
