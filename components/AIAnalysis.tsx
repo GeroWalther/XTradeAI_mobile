@@ -218,13 +218,14 @@ export const AIAnalysis = () => {
       <ScrollView contentContainerStyle={styles(COLORS).scrollContent}>
         <View style={styles(COLORS).mainContainer}>
           <Text style={styles(COLORS).title}>AI Market Analysis</Text>
+          {/*for testing purposes only to clear the user's subscription status
           <Pressable
             onPress={() => {
               AsyncStorage.clear();
               setActivePaidUser(false);
             }}>
             <Text style={{ fontSize: 40, color: COLORS.error }}>X</Text>
-          </Pressable>
+          </Pressable> */}
           <Text style={styles(COLORS).description}>
             Get advanced market insights powered by our AI algorithms. Analyze
             trends, patterns, and potential trading opportunities.
