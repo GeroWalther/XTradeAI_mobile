@@ -557,7 +557,7 @@ const styles = (COLORS: any) =>
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: -50,
+      marginTop: -30,
     },
     slideWithoutImage: {
       width,
@@ -597,7 +597,7 @@ const styles = (COLORS: any) =>
     quoteContainer: {
       width: '100%',
       paddingHorizontal: 25,
-      marginTop: 10,
+      marginTop: 0,
       position: 'relative',
     },
     quoteText: {
@@ -635,7 +635,7 @@ const styles = (COLORS: any) =>
       borderRadius: 4,
       backgroundColor: COLORS.primaryLight,
       marginHorizontal: 4,
-      marginBottom: -20,
+      marginBottom: -50,
     },
     paginationDotActive: {
       backgroundColor: COLORS.accent,
@@ -664,7 +664,7 @@ const styles = (COLORS: any) =>
     subscriptionButton: {
       backgroundColor: COLORS.primary,
       borderRadius: 12,
-      padding: 20,
+      padding: 10,
       width: '100%',
       alignItems: 'center',
       marginBottom: 15,
