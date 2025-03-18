@@ -10,19 +10,45 @@ import {
   ImageBackground,
   StatusBar,
   Platform,
+  ActivityIndicator,
+  Alert,
+  Linking,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useSubscription } from '../providers/SubscriptionProvider';
 import { useTheme } from '../providers/ThemeProvider';
+import useRevenueCat from '../hooks/useRevCat';
 
 const { width, height } = Dimensions.get('window');
 
 const OnboardingScreen = () => {
   const COLORS = useTheme();
-  const { activePaidUser, setActivePaidUser } = useSubscription();
+  const { activePaidUser, setActivePaidUser, setSubscriptionType } =
+    useSubscription();
   const navigation = useNavigation<any>();
   const scrollRef = useRef<ScrollView>(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<'weekly' | 'yearly' | null>(
+    'yearly'
+  );
+
+  // Mock subscription plans
+  const subscriptionPlans = [
+    {
+      id: 'weekly',
+      title: 'Weekly Access',
+      price: '$8.99/week',
+      isSaving: false,
+    },
+    {
+      id: 'yearly',
+      title: 'Annual Access',
+      price: '$74.00/year',
+      isSaving: true,
+      savingsText: 'Save 82%',
+    },
+  ];
 
   useEffect(() => {
     if (activePaidUser) {
@@ -153,9 +179,51 @@ const OnboardingScreen = () => {
     },
   ];
 
-  const handleSubscribe = (plan: 'weekly' | 'yearly') => {
-    console.log(`Selected ${plan} plan`);
-    setActivePaidUser(true);
+  const handleSubscribe = async () => {
+    if (!selectedPlan) {
+      Alert.alert('Please select a subscription plan');
+      return;
+    }
+
+    // Simulate purchase loading
+    setIsLoading(true);
+
+    // Mock successful purchase after 1.5 seconds
+    setTimeout(() => {
+      setIsLoading(false);
+
+      // Update subscription status
+      setActivePaidUser(true);
+      setSubscriptionType(selectedPlan);
+
+      // Navigate to home screen
+      navigation.replace('Home');
+    }, 1500);
+  };
+
+  const restorePurchases = async () => {
+    setIsLoading(true);
+
+    // Simulate restore process
+    setTimeout(() => {
+      setIsLoading(false);
+      Alert.alert(
+        'No Subscriptions Found',
+        "We couldn't find any active subscriptions to restore."
+      );
+    }, 1500);
+  };
+
+  const openTermsOfUse = () => {
+    Linking.openURL(
+      'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/'
+    );
+  };
+
+  const openPrivacyPolicy = () => {
+    Linking.openURL(
+      'https://www.privacypolicies.com/live/bc37d64b-1024-4aec-9ede-2e5039536fcc'
+    );
   };
 
   const handleScroll = (event: any) => {
@@ -173,28 +241,97 @@ const OnboardingScreen = () => {
     }
   };
 
+  const SubscriptionCard = ({
+    title,
+    price,
+    isSaving,
+    savingsText,
+    onPress,
+    isSelected,
+  }: {
+    title: string;
+    price: string;
+    isSaving?: boolean;
+    savingsText?: string;
+    onPress: () => void;
+    isSelected: boolean;
+  }) => {
+    return (
+      <TouchableOpacity
+        style={[
+          styles(COLORS).subscriptionButton,
+          isSelected && styles(COLORS).selectedButton,
+        ]}
+        onPress={onPress}>
+        {isSaving && (
+          <View style={styles(COLORS).savingsBadge}>
+            <Text style={styles(COLORS).savingsText}>{savingsText}</Text>
+          </View>
+        )}
+        <Text style={styles(COLORS).subscriptionTitle}>{title}</Text>
+        <Text style={styles(COLORS).subscriptionPrice}>{price}</Text>
+      </TouchableOpacity>
+    );
+  };
+
   const renderSubscriptionOptions = () => (
     <View style={styles(COLORS).subscriptionContainer}>
       <Text style={styles(COLORS).subscriptionHeading}>
-        Join the XTradeAI trading community to elevate your trading and market
-        analysis!
+        Join thousands of traders who are elevating their trading with
+        institutional-grade analysis!
       </Text>
-      <TouchableOpacity
-        style={styles(COLORS).subscriptionButton}
-        onPress={() => handleSubscribe('weekly')}>
-        <Text style={styles(COLORS).subscriptionTitle}>Weekly Access</Text>
-        <Text style={styles(COLORS).subscriptionPrice}>$8.99/week</Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity
-        style={[styles(COLORS).subscriptionButton, styles(COLORS).yearlyButton]}
-        onPress={() => handleSubscribe('yearly')}>
-        <View style={styles(COLORS).savingsBadge}>
-          <Text style={styles(COLORS).savingsText}>Save 82%</Text>
-        </View>
-        <Text style={styles(COLORS).subscriptionTitle}>Annual Access</Text>
-        <Text style={styles(COLORS).subscriptionPrice}>$74.00/year</Text>
-      </TouchableOpacity>
+      {isLoading ? (
+        <ActivityIndicator
+          size='large'
+          color={COLORS.accent}
+          style={styles(COLORS).loader}
+        />
+      ) : (
+        <>
+          <View style={styles(COLORS).plansContainer}>
+            {subscriptionPlans.map((plan) => (
+              <SubscriptionCard
+                key={plan.id}
+                title={plan.title}
+                price={plan.price}
+                isSaving={plan.isSaving}
+                savingsText={plan.savingsText}
+                onPress={() => setSelectedPlan(plan.id as 'weekly' | 'yearly')}
+                isSelected={selectedPlan === plan.id}
+              />
+            ))}
+          </View>
+
+          <TouchableOpacity
+            style={[
+              styles(COLORS).purchaseButton,
+              !selectedPlan && styles(COLORS).disabledButton,
+            ]}
+            disabled={isLoading || !selectedPlan}
+            onPress={handleSubscribe}>
+            <Text style={styles(COLORS).purchaseButtonText}>Subscribe Now</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles(COLORS).restoreButton}
+            onPress={restorePurchases}
+            disabled={isLoading}>
+            <Text style={styles(COLORS).restoreButtonText}>
+              Restore Purchases
+            </Text>
+          </TouchableOpacity>
+
+          <View style={styles(COLORS).links}>
+            <TouchableOpacity onPress={openTermsOfUse}>
+              <Text style={styles(COLORS).linkText}>Terms of Use</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={openPrivacyPolicy}>
+              <Text style={styles(COLORS).linkText}>Privacy Policy</Text>
+            </TouchableOpacity>
+          </View>
+        </>
+      )}
     </View>
   );
 
@@ -369,7 +506,7 @@ const styles = (COLORS: any) =>
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
-      marginTop: -80,
+      marginTop: -50,
     },
     slideWithoutImage: {
       width,
@@ -447,20 +584,21 @@ const styles = (COLORS: any) =>
       borderRadius: 4,
       backgroundColor: COLORS.primaryLight,
       marginHorizontal: 4,
+      marginBottom: -20,
     },
     paginationDotActive: {
       backgroundColor: COLORS.accent,
       width: 16,
     },
     subscriptionContainer: {
-      width: '90%',
+      width: '100%',
       flexDirection: 'column',
       alignItems: 'center',
-      gap: 20,
-      paddingHorizontal: 20,
-      marginTop: 15,
-      marginBottom: 20,
-      backgroundColor: 'rgba(20, 30, 48, 0.8)',
+      gap: 5,
+      paddingHorizontal: 15,
+
+      marginBottom: 10,
+      backgroundColor: 'rgba(20, 30, 48, 0.85)',
       borderRadius: 16,
       padding: 20,
       shadowColor: '#000',
@@ -478,16 +616,70 @@ const styles = (COLORS: any) =>
       padding: 20,
       width: '100%',
       alignItems: 'center',
+      marginBottom: 15,
+      borderWidth: 2,
+      borderColor: 'transparent',
       shadowColor: COLORS.accent,
       shadowOffset: { width: 0, height: 2 },
       shadowOpacity: 0.1,
       shadowRadius: 4,
       elevation: 3,
     },
-    yearlyButton: {
-      backgroundColor: COLORS.primaryDark,
-      borderWidth: 1,
+    subscriptionHeading: {
+      fontSize: 18,
+      fontWeight: '600',
+      color: COLORS.textPrimary,
+      textAlign: 'center',
+      lineHeight: 28,
+      marginBottom: 20,
+    },
+    plansContainer: {
+      width: '100%',
+      marginBottom: 15,
+    },
+    selectedButton: {
       borderColor: COLORS.accent,
+      backgroundColor: COLORS.primaryDark,
+    },
+    purchaseButton: {
+      backgroundColor: COLORS.accent,
+      borderRadius: 25,
+      paddingVertical: 15,
+      paddingHorizontal: 30,
+      width: '100%',
+      alignItems: 'center',
+      marginBottom: 5,
+    },
+    disabledButton: {
+      backgroundColor: COLORS.primaryLight,
+      opacity: 0.7,
+    },
+    purchaseButtonText: {
+      color: COLORS.white,
+      fontSize: 18,
+      fontWeight: 'bold',
+    },
+    restoreButton: {
+      paddingVertical: 10,
+    },
+    restoreButtonText: {
+      color: COLORS.accent,
+      fontSize: 16,
+      textDecorationLine: 'underline',
+    },
+    loader: {
+      marginVertical: 30,
+    },
+    links: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+      marginTop: 10,
+      gap: 20,
+    },
+    linkText: {
+      color: COLORS.textMuted,
+      fontSize: 14,
+      textDecorationLine: 'underline',
     },
     subscriptionTitle: {
       fontSize: 18,
@@ -519,7 +711,7 @@ const styles = (COLORS: any) =>
       fontSize: 10,
       color: COLORS.textMuted,
       textAlign: 'center',
-      marginTop: 20,
+      marginTop: 0,
       paddingHorizontal: 20,
       lineHeight: 14,
     },
@@ -542,13 +734,5 @@ const styles = (COLORS: any) =>
       color: COLORS.white,
       fontSize: 16,
       fontWeight: 'bold',
-    },
-    subscriptionHeading: {
-      fontSize: 18,
-      fontWeight: '600',
-      color: COLORS.textPrimary,
-      textAlign: 'center',
-      lineHeight: 28,
-      marginBottom: 25,
     },
   });

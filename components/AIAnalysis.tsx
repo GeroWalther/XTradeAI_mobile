@@ -6,6 +6,7 @@ import {
   ScrollView,
   SafeAreaView,
   Platform,
+  Pressable,
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useMarketAnalysis } from '../hooks/useMarketAnalysis';
@@ -13,6 +14,8 @@ import { TradingStrategy } from '../services/marketAnalysisService';
 import { useTheme } from '../providers/ThemeProvider';
 import { Button } from './ui/Button';
 import TradingViewChart from './TradingViewChart';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useSubscription } from '@/providers/SubscriptionProvider';
 
 export const AIAnalysis = () => {
   const COLORS = useTheme();
@@ -68,6 +71,7 @@ export const AIAnalysis = () => {
       riskLevel: selectedRiskLevel,
     });
   };
+  const { setActivePaidUser } = useSubscription();
 
   // Helper function to render trading strategy details
   const renderTradingStrategy = (strategy: TradingStrategy) => {
@@ -214,6 +218,13 @@ export const AIAnalysis = () => {
       <ScrollView contentContainerStyle={styles(COLORS).scrollContent}>
         <View style={styles(COLORS).mainContainer}>
           <Text style={styles(COLORS).title}>AI Market Analysis</Text>
+          <Pressable
+            onPress={() => {
+              AsyncStorage.clear();
+              setActivePaidUser(false);
+            }}>
+            <Text style={{ fontSize: 40, color: COLORS.error }}>X</Text>
+          </Pressable>
           <Text style={styles(COLORS).description}>
             Get advanced market insights powered by our AI algorithms. Analyze
             trends, patterns, and potential trading opportunities.
