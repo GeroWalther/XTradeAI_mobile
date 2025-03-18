@@ -17,7 +17,9 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useSubscription } from '../providers/SubscriptionProvider';
 import { useTheme } from '../providers/ThemeProvider';
+import { Ionicons } from '@expo/vector-icons';
 import useRevenueCat from '../hooks/useRevCat';
+import Purchases from 'react-native-purchases';
 
 const { width, height } = Dimensions.get('window');
 
@@ -29,26 +31,14 @@ const OnboardingScreen = () => {
   const scrollRef = useRef<ScrollView>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedPlan, setSelectedPlan] = useState<'weekly' | 'yearly' | null>(
-    'yearly'
-  );
+  const [selectedPackage, setSelectedPackage] = useState<any>(null);
 
-  // Mock subscription plans
-  const subscriptionPlans = [
-    {
-      id: 'weekly',
-      title: 'Weekly Access',
-      price: '$8.99/week',
-      isSaving: false,
-    },
-    {
-      id: 'yearly',
-      title: 'Annual Access',
-      price: '$74.00/year',
-      isSaving: true,
-      savingsText: 'Save 82%',
-    },
-  ];
+  const {
+    currentOffering,
+    isOfferingLoading,
+    isCustomerInfoLoading,
+    changeSubStatus,
+  } = useRevenueCat();
 
   useEffect(() => {
     if (activePaidUser) {
@@ -180,38 +170,69 @@ const OnboardingScreen = () => {
   ];
 
   const handleSubscribe = async () => {
-    if (!selectedPlan) {
+    if (!selectedPackage) {
       Alert.alert('Please select a subscription plan');
       return;
     }
 
-    // Simulate purchase loading
-    setIsLoading(true);
+    try {
+      setIsLoading(true);
+      const purchaserInfo = await Purchases.purchasePackage(selectedPackage);
 
-    // Mock successful purchase after 1.5 seconds
-    setTimeout(() => {
+      if (purchaserInfo.customerInfo.entitlements.active.pro) {
+        // Get subscription type from package identifier
+        const subType = selectedPackage.identifier.includes('yearly')
+          ? 'yearly'
+          : 'weekly';
+        setSubscriptionType(subType);
+        setActivePaidUser(true);
+        navigation.replace('Home');
+      }
+    } catch (e: any) {
+      if (!e.userCancelled) {
+        console.log(e);
+        Alert.alert(
+          'Error',
+          'There was an error processing your purchase. Please try again.'
+        );
+      }
+    } finally {
       setIsLoading(false);
-
-      // Update subscription status
-      setActivePaidUser(true);
-      setSubscriptionType(selectedPlan);
-
-      // Navigate to home screen
-      navigation.replace('Home');
-    }, 1500);
+      changeSubStatus();
+    }
   };
 
   const restorePurchases = async () => {
     setIsLoading(true);
+    try {
+      const purchaserInfo = await Purchases.restorePurchases();
 
-    // Simulate restore process
-    setTimeout(() => {
-      setIsLoading(false);
+      if (purchaserInfo.activeSubscriptions.length > 0) {
+        Alert.alert('Success', 'Your subscription has been restored!', [
+          {
+            text: 'OK',
+            onPress: () => {
+              setActivePaidUser(true);
+              navigation.replace('Home');
+            },
+          },
+        ]);
+      } else {
+        Alert.alert(
+          'No Subscriptions Found',
+          "We couldn't find any active subscriptions to restore."
+        );
+      }
+    } catch (error) {
+      console.error('Error restoring purchases:', error);
       Alert.alert(
-        'No Subscriptions Found',
-        "We couldn't find any active subscriptions to restore."
+        'Error',
+        'There was an error restoring your purchases. Please try again.'
       );
-    }, 1500);
+    } finally {
+      setIsLoading(false);
+      changeSubStatus();
+    }
   };
 
   const openTermsOfUse = () => {
@@ -242,34 +263,33 @@ const OnboardingScreen = () => {
   };
 
   const SubscriptionCard = ({
-    title,
-    price,
-    isSaving,
-    savingsText,
-    onPress,
+    pkg,
     isSelected,
   }: {
-    title: string;
-    price: string;
-    isSaving?: boolean;
-    savingsText?: string;
-    onPress: () => void;
+    pkg: any;
     isSelected: boolean;
   }) => {
+    // Check if this is a yearly package
+    const isYearly = pkg.identifier.includes('yearly');
+
     return (
       <TouchableOpacity
         style={[
           styles(COLORS).subscriptionButton,
           isSelected && styles(COLORS).selectedButton,
         ]}
-        onPress={onPress}>
-        {isSaving && (
+        onPress={() => setSelectedPackage(pkg)}>
+        {isYearly && (
           <View style={styles(COLORS).savingsBadge}>
-            <Text style={styles(COLORS).savingsText}>{savingsText}</Text>
+            <Text style={styles(COLORS).savingsText}>Save 82%</Text>
           </View>
         )}
-        <Text style={styles(COLORS).subscriptionTitle}>{title}</Text>
-        <Text style={styles(COLORS).subscriptionPrice}>{price}</Text>
+        <Text style={styles(COLORS).subscriptionTitle}>
+          {pkg.product.title}
+        </Text>
+        <Text style={styles(COLORS).subscriptionPrice}>
+          {pkg.product.priceString}
+        </Text>
       </TouchableOpacity>
     );
   };
@@ -281,7 +301,7 @@ const OnboardingScreen = () => {
         institutional-grade analysis!
       </Text>
 
-      {isLoading ? (
+      {isOfferingLoading || isCustomerInfoLoading || isLoading ? (
         <ActivityIndicator
           size='large'
           color={COLORS.accent}
@@ -290,27 +310,58 @@ const OnboardingScreen = () => {
       ) : (
         <>
           <View style={styles(COLORS).plansContainer}>
-            {subscriptionPlans.map((plan) => (
+            {currentOffering?.availablePackages?.map((pkg: any) => (
               <SubscriptionCard
-                key={plan.id}
-                title={plan.title}
-                price={plan.price}
-                isSaving={plan.isSaving}
-                savingsText={plan.savingsText}
-                onPress={() => setSelectedPlan(plan.id as 'weekly' | 'yearly')}
-                isSelected={selectedPlan === plan.id}
+                key={pkg.identifier}
+                pkg={pkg}
+                isSelected={selectedPackage?.identifier === pkg.identifier}
               />
             ))}
+
+            {/* Fallback if no packages are available from RevenueCat */}
+            {(!currentOffering?.availablePackages ||
+              currentOffering.availablePackages.length === 0) && (
+              <>
+                <SubscriptionCard
+                  pkg={{
+                    identifier: 'pro_sub_we899',
+                    product: {
+                      title: 'Weekly Access',
+                      priceString: '$8.99/week',
+                    },
+                  }}
+                  isSelected={selectedPackage?.identifier === 'pro_sub_we899'}
+                />
+                <SubscriptionCard
+                  pkg={{
+                    identifier: 'pro_sub_yearly74',
+                    product: {
+                      title: 'Annual Access',
+                      priceString: '$74.00/year',
+                    },
+                  }}
+                  isSelected={
+                    selectedPackage?.identifier === 'pro_sub_yearly74'
+                  }
+                />
+              </>
+            )}
           </View>
 
           <TouchableOpacity
             style={[
               styles(COLORS).purchaseButton,
-              !selectedPlan && styles(COLORS).disabledButton,
+              !selectedPackage && styles(COLORS).disabledButton,
             ]}
-            disabled={isLoading || !selectedPlan}
+            disabled={isLoading || !selectedPackage}
             onPress={handleSubscribe}>
-            <Text style={styles(COLORS).purchaseButtonText}>Subscribe Now</Text>
+            {isLoading ? (
+              <ActivityIndicator size='small' color={COLORS.white} />
+            ) : (
+              <Text style={styles(COLORS).purchaseButtonText}>
+                Subscribe Now
+              </Text>
+            )}
           </TouchableOpacity>
 
           <TouchableOpacity

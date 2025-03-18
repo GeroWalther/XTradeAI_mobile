@@ -9,13 +9,23 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "appName": "XTradeAI",
+      "supportsTablet": true,
+      "bundleIdentifier": "com.xtradeai.gw-intech",
+      "buildNumber": "1",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "config": {
+        "usesInAppPurchases": true
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": ["com.android.vending.BILLING"]
     },
     "web": {
       "bundler": "metro",
@@ -31,6 +41,11 @@
           "backgroundColor": "#ffffff"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "902384a5-988f-4d20-b09d-3b690d589016"
+      }
+    }
   }
 }

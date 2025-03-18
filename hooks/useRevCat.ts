@@ -28,7 +28,7 @@ function useRevenueCat() {
       });
     } else {
       await Purchases.configure({
-        apiKey: 'appl_',
+        apiKey: 'appl_ICdHUkDsuyvsNNWDwBOMSNddvyt',
       });
     }
 
