@@ -72,7 +72,7 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
               id="tradingview_chart"
               src="https://s.tradingview.com/widgetembed/?frameElementId=tradingview_chart&symbol=${getFormattedSymbol(
                 symbol
-              )}&interval=D&hidesidetoolbar=${!fullScreen}&hidetoptoolbar=${!fullScreen}&symboledit=${fullScreen}&saveimage=${fullScreen}&toolbarbg=F1F3F6&studies=%5B%22MACD%40tv-basicstudies%22%2C%22RSI%40tv-basicstudies%22%5D&theme=dark&style=1&timezone=exchange&withdateranges=1&studies_overrides=%7B%7D&overrides=%7B%7D&enabled_features=%5B%5D&disabled_features=%5B%5D&locale=en&utm_source=localhost&utm_medium=widget&utm_campaign=chart"
+              )}&interval=D&hidesidetoolbar=${!fullScreen}&hidetoptoolbar=${!fullScreen}&symboledit=${fullScreen}&saveimage=${fullScreen}&toolbarbg=F1F3F6&theme=dark&style=1&timezone=exchange&withdateranges=1&studies=%5B%22MAExp%40tv-basicstudies%22%2C%22RSI%40tv-basicstudies%22%5D&studies_overrides=%7B%22macd.macd.color%22%3A%22%232962FF%22%2C%22macd.signal.color%22%3A%22%23FF6B6B%22%2C%22macd.hist.color%22%3A%22%234CAF50%22%2C%22volume.volume.color.0%22%3A%22%23ef535090%22%2C%22volume.volume.color.1%22%3A%22%2326a69a90%22%7D&overrides=%7B%22paneProperties.background%22%3A%22%231E2230%22%2C%22scalesProperties.textColor%22%3A%22%23fff%22%7D&no_volume=1&locale=en"
               style="width: 100%; height: 100%;" 
               frameborder="0" 
               allowtransparency="true"
