@@ -31,7 +31,6 @@ const OnboardingScreen = () => {
   const scrollRef = useRef<ScrollView>(null);
   const [currentPage, setCurrentPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState<any>(null);
 
   const {
     currentOffering,
@@ -39,12 +38,34 @@ const OnboardingScreen = () => {
     isCustomerInfoLoading,
     changeSubStatus,
   } = useRevenueCat();
+  const [selectedPackage, setSelectedPackage] = useState<any>(null);
 
   useEffect(() => {
     if (activePaidUser) {
       navigation.replace('Home');
     }
   }, [activePaidUser, navigation]);
+
+  useEffect(() => {
+    if (
+      currentOffering?.availablePackages &&
+      currentOffering.availablePackages.length > 0
+    ) {
+      // Look for the annual package
+      const annualPackage = currentOffering.availablePackages.find(
+        (pkg) =>
+          pkg.identifier.includes('$rc_annual') ||
+          pkg.identifier.includes('yearly')
+      );
+
+      // Set it as selected if found, otherwise select the first package
+      if (annualPackage) {
+        setSelectedPackage(annualPackage);
+      } else {
+        setSelectedPackage(currentOffering.availablePackages[0]);
+      }
+    }
+  }, [currentOffering]);
 
   const slides = [
     {
@@ -270,7 +291,7 @@ const OnboardingScreen = () => {
     isSelected: boolean;
   }) => {
     // Check if this is a yearly package
-    const isYearly = pkg.identifier.includes('yearly');
+    const isYearly = pkg.identifier.includes('$rc_annual');
 
     return (
       <TouchableOpacity
@@ -288,7 +309,7 @@ const OnboardingScreen = () => {
           {pkg.product.title}
         </Text>
         <Text style={styles(COLORS).subscriptionPrice}>
-          {pkg.product.priceString}
+          {pkg.product.priceString} {isYearly ? '/year' : '/week'}
         </Text>
       </TouchableOpacity>
     );
@@ -310,13 +331,20 @@ const OnboardingScreen = () => {
       ) : (
         <>
           <View style={styles(COLORS).plansContainer}>
-            {currentOffering?.availablePackages?.map((pkg: any) => (
-              <SubscriptionCard
-                key={pkg.identifier}
-                pkg={pkg}
-                isSelected={selectedPackage?.identifier === pkg.identifier}
-              />
-            ))}
+            {currentOffering?.availablePackages
+              ?.sort((a, b) => {
+                // Sort to make weekly package appear first
+                if (a.identifier.includes('$rc_weekly')) return -1;
+                if (b.identifier.includes('$rc_weekly')) return 1;
+                return 0;
+              })
+              .map((pkg: any) => (
+                <SubscriptionCard
+                  key={pkg.identifier}
+                  pkg={pkg}
+                  isSelected={selectedPackage?.identifier === pkg.identifier}
+                />
+              ))}
 
             {/* Fallback if no packages are available from RevenueCat */}
             {(!currentOffering?.availablePackages ||
