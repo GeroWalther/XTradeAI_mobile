@@ -14,7 +14,7 @@ interface SubscriptionProviderProps {
 }
 
 export function SubscriptionProvider({ children }: SubscriptionProviderProps) {
-  const [activePaidUser, setActivePaidUser] = useState(false);
+  const [activePaidUser, setActivePaidUser] = useState(true);
 
   return (
     <SubscriptionContext.Provider value={{ activePaidUser, setActivePaidUser }}>

@@ -12,6 +12,7 @@ import { useMarketAnalysis } from '../hooks/useMarketAnalysis';
 import { TradingStrategy } from '../services/marketAnalysisService';
 import { useTheme } from '../providers/ThemeProvider';
 import { Button } from './ui/Button';
+import TradingViewChart from './TradingViewChart';
 
 export const AIAnalysis = () => {
   const COLORS = useTheme();
@@ -238,6 +239,11 @@ export const AIAnalysis = () => {
               riskLevelOptions,
               'Risk Level'
             )}
+          </View>
+
+          {/* TradingView Chart */}
+          <View style={styles(COLORS).chartContainer}>
+            <TradingViewChart symbol={selectedAsset} theme={COLORS} />
           </View>
 
           {/* Analyze button */}
@@ -658,5 +664,15 @@ const styles = (COLORS: any) =>
       color: COLORS.textMuted,
       fontSize: 14,
       lineHeight: 20,
+    },
+    chartContainer: {
+      marginVertical: 20,
+      height: 500,
+      width: '100%',
+      backgroundColor: COLORS.background,
+      borderRadius: 12,
+      overflow: 'hidden',
+      borderWidth: 1,
+      borderColor: COLORS.primaryLight,
     },
   });
