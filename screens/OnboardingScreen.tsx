@@ -32,7 +32,7 @@ const OnboardingScreen = () => {
 
   const slides = [
     {
-      title: 'Your AI Analysis Report',
+      title: 'Welcome to XTradeAI',
       description:
         'Every analysis includes these actionable insights:\n\n' +
         '• Market Summary\n' +
@@ -54,11 +54,13 @@ const OnboardingScreen = () => {
     {
       title: 'Advanced Technical Analysis',
       description:
-        '• Professional TradingView charts integration\n\n' +
+        'Our AI Algorithm reads through major technical indicators on every analysis to calculate the most accurate trading signals.\n\n' +
         '• Moving averages and RSI momentum indicators\n\n' +
         '• MACD signal identification and trend analysis\n\n' +
         '• Key support and resistance level detection\n\n' +
-        '• Bullish and bearish pattern recognition',
+        '• Bullish and bearish pattern recognition ' +
+        'are respected in the analysis.\n\n' +
+        'Professional TradingView charts integration',
       quote: {
         text: 'Like having a pro trader guide you through every market decision.',
         author: 'Sarah T.',
@@ -68,6 +70,7 @@ const OnboardingScreen = () => {
     {
       title: 'Intelligent News Processing',
       description:
+        'Our AI Algorithm reads through all relevant, recent News articles from financial news sites online that could impact the asset price.\n\n' +
         '• Real-time financial news monitoring and analysis\n\n' +
         '• Fed policy and interest rate impact assessment\n\n' +
         '• Corporate earnings report tracking\n\n' +
@@ -82,6 +85,7 @@ const OnboardingScreen = () => {
     {
       title: 'Macroeconomic Integration',
       description:
+        'Our AI Algorithm reads through all relevant, recent economic data releases - Researches Fed announcements, inflation data, employment reports, CPI, M2, GDP, dept etc. \n\n' +
         '• Central bank policy monitoring and analysis\n\n' +
         '• Interest rate decision impact assessment\n\n' +
         '• Global market correlation tracking\n\n' +
@@ -96,6 +100,7 @@ const OnboardingScreen = () => {
     {
       title: 'Social Sentiment Analysis',
       description:
+        'Our AI Algorithm reads through all relevant, recent social media sentiment from verified sources. \n\n' +
         '• X/Twitter sentiment tracking from verified sources\n\n' +
         '• Financial influencer monitoring\n\n' +
         '• Market sentiment indicators and analysis\n\n' +
@@ -110,6 +115,7 @@ const OnboardingScreen = () => {
     {
       title: 'Real-Time Market Data Analysis',
       description:
+        'Our AI Algorithm reads through all relevant, recent market data from Yahoo Finance and TradingView to provide the most accurate analysis.\n\n' +
         '• Live Yahoo Finance integration - real-time price data and market updates\n\n' +
         '• TradingView professional charts with interactive features\n\n' +
         '• Price trend analysis with multiple timeframes\n\n' +
@@ -124,11 +130,12 @@ const OnboardingScreen = () => {
     {
       title: 'Comprehensive Market Intelligence',
       description:
-        'Our AI combines these tools to provide:\n\n' +
-        '• Professional TradingView charts with MACD and RSI\n\n' +
-        '• Clear LONG/SHORT direction recommendation\n\n' +
+        'Our AI combines all of these tools to provide:\n\n' +
+        '• Summary and in-depth Real-time market analysis for given asset, term and risk level\n\n' +
+        '• Professional TradingView charts for live price data and market updates\n\n' +
+        '• Clear LONG/SHORT direction trading recommendation\n\n' +
         '• Precise entry, stop-loss and take-profit levels\n\n' +
-        '• Risk/reward assessment based on current price',
+        '• Risk/reward assessment based on algorithmically calculated current price, risk level and term.',
       quote: {
         text: 'This app gives you a comprehensive market analysis by leveraging the best AI and data sources in the industry in an accessible way.',
         author: 'Mario K. XTradeAI Adviser',
@@ -384,7 +391,7 @@ const styles = (COLORS: any) =>
       fontSize: 16,
       color: COLORS.textSecondary,
       textAlign: 'left',
-      lineHeight: 24,
+      lineHeight: 20,
       marginBottom: 30,
       paddingHorizontal: 20,
     },
