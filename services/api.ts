@@ -1,8 +1,9 @@
 import axios from 'axios';
+import { AI_SERVER_URL } from '../constants/env';
 
-// Hardcoded URL
-const BASE_URL = 'http://51.92.33.198:5005';
-console.log('Using hardcoded URL:', BASE_URL);
+// Use the server URL from environment
+const BASE_URL = AI_SERVER_URL;
+console.log('Using server URL:', BASE_URL);
 
 // Create axios instance with default config
 const apiClient = axios.create({

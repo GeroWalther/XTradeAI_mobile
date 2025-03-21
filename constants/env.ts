@@ -1,5 +1,5 @@
 // Environment variables
-const SERVER_URL = 'http://51.92.33.198:5005';
+const SERVER_URL = 'https://ai-trading-analysis.gw-intech.com';
 export const AI_SERVER_URL = SERVER_URL;
 
 console.log('Environment URL:', process.env.EXPO_PUBLIC_AI_SERVER_URL);
