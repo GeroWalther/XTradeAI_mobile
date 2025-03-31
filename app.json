@@ -2,7 +2,7 @@
   "expo": {
     "name": "XTradeAI",
     "slug": "XTradeAI",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -12,7 +12,7 @@
       "appName": "XTradeAI",
       "supportsTablet": true,
       "bundleIdentifier": "com.xtradeai.gw-intech",
-      "buildNumber": "1",
+      "buildNumber": "3",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
@@ -23,9 +23,12 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#13203f"
       },
-      "permissions": ["com.android.vending.BILLING"]
+      "permissions": [
+        "com.android.vending.BILLING",
+        "com.android.vending.BILLING"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -36,9 +39,15 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
+          "imageWidth": 1290,
+          "imageHeight": 2796,
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#13203f",
+          "splashScreen": {
+            "image": "./assets/images/splash-icon.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#13203f"
+          }
         }
       ]
     ],
@@ -46,6 +55,12 @@
       "eas": {
         "projectId": "902384a5-988f-4d20-b09d-3b690d589016"
       }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/902384a5-988f-4d20-b09d-3b690d589016"
     }
   }
 }
