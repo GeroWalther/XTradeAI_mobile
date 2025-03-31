@@ -22,12 +22,65 @@ export const AIAnalysis = () => {
 
   // Available options for dropdowns
   const assetOptions = [
-    { value: 'Nasdaq', label: 'Nasdaq (NAS100/USD)' },
-    { value: 'S&P500', label: 'S&P 500 (SPX500/USD)' },
-    { value: 'Gold', label: 'Gold (XAU/USD)' },
-    { value: 'EUR/USD', label: 'EUR/USD' },
-    { value: 'USD/JPY', label: 'USD/JPY' },
-    { value: 'BTCUSD', label: 'Bitcoin (BTC/USD)' },
+    // Indices
+    { value: 'nasdaq', label: 'NASDAQ Composite (^IXIC)' },
+    { value: 'nasdaq100', label: 'NASDAQ-100 (^NDX)' },
+    { value: 's&p500', label: 'S&P 500 (^GSPC)' },
+    { value: 'dow', label: 'Dow Jones (^DJI)' },
+    { value: 'dax', label: 'DAX (^GDAXI)' },
+    { value: 'nikkei', label: 'Nikkei 225 (^N225)' },
+    { value: 'ftse100', label: 'FTSE 100 (^FTSE)' },
+
+    // Forex Pairs
+    { value: 'usd/jpy', label: 'USD/JPY' },
+    { value: 'eur/usd', label: 'EUR/USD' },
+    { value: 'gbp/usd', label: 'GBP/USD' },
+    { value: 'usd/cad', label: 'USD/CAD' },
+    { value: 'aud/usd', label: 'AUD/USD' },
+    { value: 'nzd/usd', label: 'NZD/USD' },
+    { value: 'usd/chf', label: 'USD/CHF' },
+    { value: 'eur/jpy', label: 'EUR/JPY' },
+    { value: 'gbp/jpy', label: 'GBP/JPY' },
+    { value: 'eur/gbp', label: 'EUR/GBP' },
+    { value: 'eur/chf', label: 'EUR/CHF' },
+
+    // Commodities
+    { value: 'gold', label: 'Gold (GC=F)' },
+    { value: 'silver', label: 'Silver (SI=F)' },
+    { value: 'crude oil', label: 'Crude Oil (CL=F)' },
+    { value: 'brent oil', label: 'Brent Oil (BZ=F)' },
+    { value: 'palladium', label: 'Palladium (PA=F)' },
+    { value: 'platinum', label: 'Platinum (PL=F)' },
+    { value: 'copper', label: 'Copper (HG=F)' },
+
+    // Cryptocurrencies
+    { value: 'bitcoin', label: 'Bitcoin (BTC-USD)' },
+    { value: 'ethereum', label: 'Ethereum (ETH-USD)' },
+    { value: 'solana', label: 'Solana (SOL-USD)' },
+    { value: 'cardano', label: 'Cardano (ADA-USD)' },
+    { value: 'polkadot', label: 'Polkadot (DOT-USD)' },
+    { value: 'ripple', label: 'Ripple (XRP-USD)' },
+
+    // Major Stocks
+    { value: 'apple', label: 'Apple (AAPL)' },
+    { value: 'microsoft', label: 'Microsoft (MSFT)' },
+    { value: 'amazon', label: 'Amazon (AMZN)' },
+    { value: 'tesla', label: 'Tesla (TSLA)' },
+    { value: 'meta', label: 'Meta (META)' },
+    { value: 'google', label: 'Google (GOOGL)' },
+    { value: 'nvidia', label: 'NVIDIA (NVDA)' },
+    { value: 'netflix', label: 'Netflix (NFLX)' },
+    { value: 'disney', label: 'Disney (DIS)' },
+    { value: 'mcdonalds', label: "McDonald's (MCD)" },
+    { value: 'coca cola', label: 'Coca-Cola (KO)' },
+    { value: 'pepsi', label: 'Pepsi (PEP)' },
+    { value: 'visa', label: 'Visa (V)' },
+    { value: 'mastercard', label: 'Mastercard (MA)' },
+    { value: 'jpmorgan', label: 'JPMorgan (JPM)' },
+    { value: 'bank of america', label: 'Bank of America (BAC)' },
+    { value: 'walmart', label: 'Walmart (WMT)' },
+    { value: 'home depot', label: 'Home Depot (HD)' },
+    { value: 'procter & gamble', label: 'Procter & Gamble (PG)' },
   ];
 
   const termOptions = [
