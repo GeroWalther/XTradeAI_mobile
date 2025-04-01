@@ -30,11 +30,11 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
     // Indices
     if (symbol === 'nasdaq') return 'NASDAQ:IXIC';
     if (symbol === 'nasdaq100') return 'NASDAQ:NDX';
-    if (symbol === 's&p500') return 'SPX';
+    if (symbol === 's&p500') return 'FOREXCOM:SPX500';
     if (symbol === 'dow') return 'DJI';
     if (symbol === 'dax') return 'XETR:DAX';
-    if (symbol === 'nikkei') return 'NIKKEI:NI225';
-    if (symbol === 'ftse100') return 'LSE:FTSE';
+    if (symbol === 'nikkei') return 'SPREADEX-NIKKEI';
+    if (symbol === 'ftse100') return 'SPREADEX-FTSE';
 
     // Forex Pairs
     if (symbol === 'usd/jpy') return 'OANDA:USDJPY';
@@ -52,8 +52,8 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
     // Commodities
     if (symbol === 'gold') return 'OANDA:XAUUSD';
     if (symbol === 'silver') return 'OANDA:XAGUSD';
-    if (symbol === 'crude oil') return 'OANDA:USOIL';
-    if (symbol === 'brent oil') return 'OANDA:UKOIL';
+    if (symbol === 'crude oil') return 'WTI3!';
+    if (symbol === 'brent oil') return 'BRENT';
     if (symbol === 'palladium') return 'OANDA:XPDUSD';
     if (symbol === 'platinum') return 'OANDA:XPTUSD';
     if (symbol === 'copper') return 'OANDA:XCUUSD';

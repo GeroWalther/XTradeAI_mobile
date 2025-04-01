@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -19,13 +19,14 @@ import { useSubscription } from '@/providers/SubscriptionProvider';
 
 export const AIAnalysis = () => {
   const COLORS = useTheme();
+  const scrollViewRef = useRef<ScrollView>(null);
 
   // Available options for dropdowns
   const assetOptions = [
     // Indices
     { value: 'nasdaq', label: 'NASDAQ Composite (^IXIC)' },
     { value: 'nasdaq100', label: 'NASDAQ-100 (^NDX)' },
-    { value: 's&p500', label: 'S&P 500 (^GSPC)' },
+    { value: 's&p500', label: 'S&P 500 index (SPX)' },
     { value: 'dow', label: 'Dow Jones (^DJI)' },
     { value: 'dax', label: 'DAX (^GDAXI)' },
     { value: 'nikkei', label: 'Nikkei 225 (^N225)' },
@@ -47,7 +48,7 @@ export const AIAnalysis = () => {
     // Commodities
     { value: 'gold', label: 'Gold (GC=F)' },
     { value: 'silver', label: 'Silver (SI=F)' },
-    { value: 'crude oil', label: 'Crude Oil (CL=F)' },
+    { value: 'crude oil', label: 'Crude Oil WTI (CL=F)' },
     { value: 'brent oil', label: 'Brent Oil (BZ=F)' },
     { value: 'palladium', label: 'Palladium (PA=F)' },
     { value: 'platinum', label: 'Platinum (PL=F)' },
@@ -115,6 +116,19 @@ export const AIAnalysis = () => {
     cooldownActive,
     cooldownTime,
   } = useMarketAnalysis();
+
+  // Add useEffect to handle scrolling when analysis is available
+  useEffect(() => {
+    if (analysis && !isLoading && !isError) {
+      // Add a small delay to ensure the results are rendered
+      setTimeout(() => {
+        scrollViewRef.current?.scrollTo({
+          y: 1000, // This should scroll past the chart to the results
+          animated: true,
+        });
+      }, 500);
+    }
+  }, [analysis, isLoading, isError]);
 
   // Handle analyze market
   const handleAnalyzeMarket = () => {
@@ -268,7 +282,9 @@ export const AIAnalysis = () => {
 
   return (
     <SafeAreaView style={styles(COLORS).container}>
-      <ScrollView contentContainerStyle={styles(COLORS).scrollContent}>
+      <ScrollView
+        ref={scrollViewRef}
+        contentContainerStyle={styles(COLORS).scrollContent}>
         <View style={styles(COLORS).mainContainer}>
           <Text style={styles(COLORS).title}>AI Market Analysis</Text>
           {/*for testing purposes only to clear the user's subscription status

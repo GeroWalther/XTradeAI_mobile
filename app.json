@@ -2,7 +2,7 @@
   "expo": {
     "name": "XTradeAI",
     "slug": "XTradeAI",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
@@ -12,7 +12,7 @@
       "appName": "XTradeAI",
       "supportsTablet": true,
       "bundleIdentifier": "com.xtradeai.gw-intech",
-      "buildNumber": "3",
+      "buildNumber": "4",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
@@ -26,6 +26,8 @@
         "backgroundColor": "#13203f"
       },
       "permissions": [
+        "com.android.vending.BILLING",
+        "com.android.vending.BILLING",
         "com.android.vending.BILLING",
         "com.android.vending.BILLING"
       ]
@@ -56,11 +58,14 @@
         "projectId": "902384a5-988f-4d20-b09d-3b690d589016"
       }
     },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0,
+      "url": "https://u.expo.dev/902384a5-988f-4d20-b09d-3b690d589016"
+    },
     "runtimeVersion": {
       "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/902384a5-988f-4d20-b09d-3b690d589016"
     }
   }
 }
