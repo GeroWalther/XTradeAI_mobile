@@ -24,22 +24,71 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
 
   // Convert symbol to TradingView format
   const getFormattedSymbol = (symbol: string) => {
-    switch (symbol) {
-      case 'Nasdaq':
-        return 'NASDAQ:NDX';
-      case 'S&P500':
-        return 'SPX';
-      case 'Gold':
-        return 'OANDA:XAUUSD';
-      case 'EUR/USD':
-        return 'OANDA:EURUSD';
-      case 'USD/JPY':
-        return 'OANDA:USDJPY';
-      case 'BTCUSD':
-        return 'BINANCE:BTCUSDT';
-      default:
-        return 'BINANCE:BTCUSDT';
-    }
+    // Convert to lowercase for consistent comparison
+    symbol = symbol.toLowerCase();
+
+    // Indices
+    if (symbol === 'nasdaq') return 'NASDAQ:IXIC';
+    if (symbol === 'nasdaq100') return 'NASDAQ:NDX';
+    if (symbol === 's&p500') return 'SPX';
+    if (symbol === 'dow') return 'DJI';
+    if (symbol === 'dax') return 'XETR:DAX';
+    if (symbol === 'nikkei') return 'NIKKEI:NI225';
+    if (symbol === 'ftse100') return 'LSE:FTSE';
+
+    // Forex Pairs
+    if (symbol === 'usd/jpy') return 'OANDA:USDJPY';
+    if (symbol === 'eur/usd') return 'OANDA:EURUSD';
+    if (symbol === 'gbp/usd') return 'OANDA:GBPUSD';
+    if (symbol === 'usd/cad') return 'OANDA:USDCAD';
+    if (symbol === 'aud/usd') return 'OANDA:AUDUSD';
+    if (symbol === 'nzd/usd') return 'OANDA:NZDUSD';
+    if (symbol === 'usd/chf') return 'OANDA:USDCHF';
+    if (symbol === 'eur/jpy') return 'OANDA:EURJPY';
+    if (symbol === 'gbp/jpy') return 'OANDA:GBPJPY';
+    if (symbol === 'eur/gbp') return 'OANDA:EURGBP';
+    if (symbol === 'eur/chf') return 'OANDA:EURCHF';
+
+    // Commodities
+    if (symbol === 'gold') return 'OANDA:XAUUSD';
+    if (symbol === 'silver') return 'OANDA:XAGUSD';
+    if (symbol === 'crude oil') return 'OANDA:USOIL';
+    if (symbol === 'brent oil') return 'OANDA:UKOIL';
+    if (symbol === 'palladium') return 'OANDA:XPDUSD';
+    if (symbol === 'platinum') return 'OANDA:XPTUSD';
+    if (symbol === 'copper') return 'OANDA:XCUUSD';
+
+    // Cryptocurrencies
+    if (symbol === 'bitcoin') return 'BINANCE:BTCUSDT';
+    if (symbol === 'ethereum') return 'BINANCE:ETHUSDT';
+    if (symbol === 'solana') return 'BINANCE:SOLUSDT';
+    if (symbol === 'cardano') return 'BINANCE:ADAUSDT';
+    if (symbol === 'polkadot') return 'BINANCE:DOTUSDT';
+    if (symbol === 'ripple') return 'BINANCE:XRPUSDT';
+
+    // Stocks
+    if (symbol === 'apple') return 'NASDAQ:AAPL';
+    if (symbol === 'microsoft') return 'NASDAQ:MSFT';
+    if (symbol === 'amazon') return 'NASDAQ:AMZN';
+    if (symbol === 'tesla') return 'NASDAQ:TSLA';
+    if (symbol === 'meta') return 'NASDAQ:META';
+    if (symbol === 'google') return 'NASDAQ:GOOGL';
+    if (symbol === 'nvidia') return 'NASDAQ:NVDA';
+    if (symbol === 'netflix') return 'NASDAQ:NFLX';
+    if (symbol === 'disney') return 'NYSE:DIS';
+    if (symbol === 'mcdonalds') return 'NYSE:MCD';
+    if (symbol === 'coca cola') return 'NYSE:KO';
+    if (symbol === 'pepsi') return 'NASDAQ:PEP';
+    if (symbol === 'visa') return 'NYSE:V';
+    if (symbol === 'mastercard') return 'NYSE:MA';
+    if (symbol === 'jpmorgan') return 'NYSE:JPM';
+    if (symbol === 'bank of america') return 'NYSE:BAC';
+    if (symbol === 'walmart') return 'NYSE:WMT';
+    if (symbol === 'home depot') return 'NYSE:HD';
+    if (symbol === 'procter & gamble') return 'NYSE:PG';
+
+    // Default fallback
+    return 'BINANCE:BTCUSDT';
   };
 
   const renderChart = (fullScreen: boolean) => {
