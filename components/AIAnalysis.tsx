@@ -24,10 +24,10 @@ export const AIAnalysis = () => {
   // Available options for dropdowns
   const assetOptions = [
     // Indices
-    { value: 'nasdaq', label: 'NASDAQ Composite (^IXIC)' },
-    { value: 'nasdaq100', label: 'NASDAQ-100 (^NDX)' },
     { value: 's&p500', label: 'S&P 500 index (SPX)' },
     { value: 'dow', label: 'Dow Jones (^DJI)' },
+    { value: 'nasdaq', label: 'NASDAQ Composite (^IXIC)' },
+    { value: 'nasdaq100', label: 'NASDAQ-100 (^NDX)' },
     { value: 'dax', label: 'DAX (^GDAXI)' },
     { value: 'nikkei', label: 'Nikkei 225 (^N225)' },
     { value: 'ftse100', label: 'FTSE 100 (^FTSE)' },
@@ -46,13 +46,13 @@ export const AIAnalysis = () => {
     { value: 'eur/chf', label: 'EUR/CHF' },
 
     // Commodities
-    { value: 'gold', label: 'Gold (GC=F)' },
-    { value: 'silver', label: 'Silver (SI=F)' },
-    { value: 'crude oil', label: 'Crude Oil WTI (CL=F)' },
-    { value: 'brent oil', label: 'Brent Oil (BZ=F)' },
-    { value: 'palladium', label: 'Palladium (PA=F)' },
-    { value: 'platinum', label: 'Platinum (PL=F)' },
-    { value: 'copper', label: 'Copper (HG=F)' },
+    { value: 'gold', label: 'Gold' },
+    { value: 'silver', label: 'Silver' },
+    { value: 'crude oil', label: 'Crude Oil WTI' },
+    { value: 'brent oil', label: 'Brent Oil ' },
+    { value: 'palladium', label: 'Palladium ' },
+    { value: 'platinum', label: 'Platinum ' },
+    { value: 'copper', label: 'Copper' },
 
     // Cryptocurrencies
     { value: 'bitcoin', label: 'Bitcoin (BTC-USD)' },
@@ -123,10 +123,10 @@ export const AIAnalysis = () => {
       // Add a small delay to ensure the results are rendered
       setTimeout(() => {
         scrollViewRef.current?.scrollTo({
-          y: 1000, // This should scroll past the chart to the results
+          y: 1200, // Increased scroll position to better reach the results
           animated: true,
         });
-      }, 500);
+      }, 800); // Increased delay to ensure content is fully rendered
     }
   }, [analysis, isLoading, isError]);
 
@@ -335,6 +335,11 @@ export const AIAnalysis = () => {
                 : cooldownActive
                 ? `Cooldown: ${cooldownTime}s`
                 : 'Run AI Analysis'
+            }
+            style={
+              analysis
+                ? { marginTop: 15, marginBottom: 10 }
+                : { marginBottom: 400 }
             }
             onPress={handleAnalyzeMarket}
             disabled={isLoading || cooldownActive}

@@ -32,9 +32,9 @@ const TradingViewChart: React.FC<TradingViewChartProps> = ({
     if (symbol === 'nasdaq100') return 'NASDAQ:NDX';
     if (symbol === 's&p500') return 'FOREXCOM:SPX500';
     if (symbol === 'dow') return 'DJI';
-    if (symbol === 'dax') return 'XETR:DAX';
-    if (symbol === 'nikkei') return 'SPREADEX-NIKKEI';
-    if (symbol === 'ftse100') return 'SPREADEX-FTSE';
+    if (symbol === 'dax') return 'INDEX:DAX';
+    if (symbol === 'nikkei') return 'OANDA:JP225USD';
+    if (symbol === 'ftse100') return 'OANDA:UK100GBP';
 
     // Forex Pairs
     if (symbol === 'usd/jpy') return 'OANDA:USDJPY';
