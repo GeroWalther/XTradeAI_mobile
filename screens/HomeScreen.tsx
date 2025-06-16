@@ -9,7 +9,7 @@ export default function HomeScreen() {
 
   const { activePaidUser } = useSubscription();
   const navigation = useNavigation<any>();
-  //for testing purposes, we are not using the onboarding screen
+  // Temporarily disabled for testing OpenAI integration
   // if (!activePaidUser) {
   //   navigation.navigate('Onboarding');
   // }
