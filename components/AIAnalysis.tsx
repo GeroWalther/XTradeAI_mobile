@@ -257,21 +257,17 @@ export const AIAnalysis = () => {
             selectedValue={selectedValue}
             onValueChange={onValueChange}
             enabled={!isLoading && !cooldownActive}
-            itemStyle={styles(COLORS).pickerItemStyle}
-            style={[
-              styles(COLORS).picker,
-              Platform.OS === 'ios' && styles(COLORS).pickerIOS,
-            ]}>
+            itemStyle={
+              Platform.OS === 'ios' ? styles(COLORS).pickerItemStyle : undefined
+            }
+            style={styles(COLORS).picker}
+            mode='dropdown'>
             {items.map((item) => (
               <Picker.Item
                 key={item.value}
                 label={item.label}
                 value={item.value}
-                color={
-                  Platform.OS === 'ios'
-                    ? COLORS.textPrimary
-                    : COLORS.textPrimary
-                }
+                color={'#000000'}
               />
             ))}
           </Picker>
@@ -286,19 +282,14 @@ export const AIAnalysis = () => {
         ref={scrollViewRef}
         contentContainerStyle={styles(COLORS).scrollContent}>
         <View style={styles(COLORS).mainContainer}>
-          <Text style={styles(COLORS).title}>AI Market Analysis</Text>
-          {/*for testing purposes only to clear the user's subscription status
-          <Pressable
-            onPress={() => {
-              AsyncStorage.clear();
-              setActivePaidUser(false);
-            }}>
-            <Text style={{ fontSize: 40, color: COLORS.error }}>X</Text>
-          </Pressable> */}
-          <Text style={styles(COLORS).description}>
-            Get advanced market insights powered by our AI algorithms. Analyze
-            trends, patterns, and potential trading opportunities.
-          </Text>
+          <View style={styles(COLORS).headerSection}>
+            <Text style={styles(COLORS).title}>Market Analysis</Text>
+            <Text style={styles(COLORS).description}>
+              Get comprehensive market insights powered by AI. Select your
+              asset, trading timeframe, and risk level for personalized
+              analysis.
+            </Text>
+          </View>
 
           {/* Selection dropdowns */}
           <View style={styles(COLORS).selectionsContainer}>
@@ -328,25 +319,28 @@ export const AIAnalysis = () => {
           </View>
 
           {/* Analyze button */}
-          <Button
-            title={
-              isLoading
-                ? 'Analyzing...'
-                : cooldownActive
-                ? `Cooldown: ${cooldownTime}s`
-                : 'Run AI Analysis'
-            }
-            style={
-              analysis
-                ? { marginTop: 15, marginBottom: 10 }
-                : { marginBottom: 400 }
-            }
-            onPress={handleAnalyzeMarket}
-            disabled={isLoading || cooldownActive}
-            isLoading={isLoading}
-            variant='primary'
-            fullWidth
-          />
+          <View style={styles(COLORS).buttonContainer}>
+            <Button
+              title={
+                isLoading
+                  ? 'Analyzing...'
+                  : cooldownActive
+                  ? `Cooldown: ${cooldownTime}s`
+                  : 'Run AI Analysis'
+              }
+              style={[
+                styles(COLORS).buttonStyle,
+                analysis
+                  ? { marginTop: 15, marginBottom: 10 }
+                  : { marginBottom: 400 },
+              ]}
+              onPress={handleAnalyzeMarket}
+              disabled={isLoading || cooldownActive}
+              isLoading={isLoading}
+              variant='primary'
+              fullWidth
+            />
+          </View>
 
           {/* Error message */}
           {isError && error instanceof Error && (
@@ -445,7 +439,7 @@ export const AIAnalysis = () => {
               <View style={styles(COLORS).sectionContainer}>
                 <Text style={styles(COLORS).sectionTitle}>Key Drivers</Text>
                 <View style={styles(COLORS).driversList}>
-                  {analysis.key_drivers.map((driver, index) => (
+                  {analysis.key_drivers.map((driver: string, index: number) => (
                     <Text key={index} style={styles(COLORS).driverItem}>
                       • {driver}
                     </Text>
@@ -482,283 +476,361 @@ const styles = (COLORS: any) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: COLORS.background,
+      backgroundColor: '#FAFAFA',
     },
     scrollContent: {
       flexGrow: 1,
+      paddingBottom: 40,
     },
     mainContainer: {
       flex: 1,
-      padding: 16,
+      padding: 0,
+    },
+    headerSection: {
+      paddingHorizontal: 24,
+      paddingTop: 32,
+      paddingBottom: 16,
+      backgroundColor: '#FFFFFF',
     },
     title: {
       fontSize: 28,
-      fontWeight: 'bold',
-      color: COLORS.accent,
-      marginBottom: 12,
+      fontWeight: '700',
+      color: '#0A0A0A',
+      marginBottom: 8,
+      letterSpacing: -0.3,
     },
     description: {
-      color: COLORS.textSecondary,
-      marginBottom: 24,
+      color: '#6B7280',
+      marginBottom: 0,
       lineHeight: 22,
-      fontSize: 16,
+      fontSize: 15,
+      fontWeight: '400',
     },
     selectionsContainer: {
-      marginBottom: 24,
+      backgroundColor: '#FFFFFF',
+      paddingVertical: 24,
+      paddingHorizontal: 24,
+      marginTop: 8,
+      borderBottomWidth: 1,
+      borderBottomColor: '#F3F4F6',
     },
     pickerContainer: {
       marginBottom: 20,
     },
     pickerLabel: {
-      color: COLORS.accent,
+      color: '#0A0A0A',
       marginBottom: 8,
-      fontSize: 16,
+      fontSize: 14,
       fontWeight: '600',
+      textTransform: 'uppercase',
       letterSpacing: 0.5,
     },
     pickerWrapper: {
-      backgroundColor: COLORS.primary,
-      borderRadius: 12,
-      overflow: 'hidden',
+      backgroundColor: '#F9FAFB',
+      borderRadius: 8,
       borderWidth: 1,
-      borderColor: COLORS.accent,
-      shadowColor: COLORS.accent,
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 3,
+      borderColor: '#E5E7EB',
+      minHeight: Platform.OS === 'ios' ? 44 : 50,
+      overflow: 'hidden',
     },
     picker: {
-      color: COLORS.textPrimary,
       width: '100%',
+      backgroundColor: 'transparent',
+      color: '#0A0A0A',
     },
     pickerIOS: {
-      backgroundColor: 'rgba(97, 218, 251, 0.05)', // COLORS.accent with opacity
+      backgroundColor: 'transparent',
     },
     pickerItemStyle: {
-      fontSize: 18,
-      height: 110,
-      color: COLORS.textPrimary,
+      fontSize: 16,
+      height: 44,
+      color: '#0A0A0A',
       fontWeight: '500',
     },
+    buttonContainer: {
+      paddingHorizontal: 24,
+      paddingVertical: 24,
+      backgroundColor: '#FFFFFF',
+      borderBottomWidth: 8,
+      borderBottomColor: '#F3F4F6',
+    },
+    buttonStyle: {
+      backgroundColor: '#0A0A0A',
+    },
     errorContainer: {
-      backgroundColor: COLORS.bgError,
+      backgroundColor: '#FEF2F2',
+      marginHorizontal: 24,
+      marginTop: 16,
       borderRadius: 12,
-      padding: 16,
-      marginTop: 24,
+      padding: 20,
+      borderLeftWidth: 4,
+      borderLeftColor: '#DC2626',
     },
     errorTitle: {
-      color: COLORS.error,
-      fontWeight: 'bold',
+      color: '#B91C1C',
+      fontWeight: '600',
       marginBottom: 8,
-      fontSize: 16,
+      fontSize: 15,
     },
     errorDetails: {
       marginTop: 8,
     },
     errorText: {
-      color: COLORS.error,
+      color: '#B91C1C',
       marginBottom: 8,
+      fontSize: 14,
+      lineHeight: 20,
     },
     errorList: {
       marginVertical: 8,
       paddingLeft: 8,
     },
     errorListItem: {
-      color: COLORS.error,
+      color: '#B91C1C',
       marginBottom: 4,
+      fontSize: 14,
     },
     resultsContainer: {
-      marginTop: 32,
+      paddingTop: 24,
+      paddingHorizontal: 24,
     },
     mockDataBanner: {
-      backgroundColor: COLORS.bgWarning,
-      borderRadius: 12,
-      padding: 12,
+      backgroundColor: '#FFFBEB',
+      borderRadius: 8,
+      padding: 16,
       marginBottom: 24,
+      borderLeftWidth: 4,
+      borderLeftColor: '#F59E0B',
     },
     mockDataText: {
-      color: COLORS.warning,
-      fontWeight: 'bold',
+      color: '#B45309',
+      fontWeight: '500',
+      fontSize: 14,
     },
     resultsTitle: {
       fontSize: 24,
-      fontWeight: 'bold',
-      color: COLORS.accent,
+      fontWeight: '700',
+      color: '#0A0A0A',
       marginBottom: 24,
+      letterSpacing: -0.2,
     },
     metaContainer: {
-      backgroundColor: COLORS.bgPurple,
+      backgroundColor: '#FFFFFF',
       borderRadius: 12,
-      padding: 16,
-      marginBottom: 24,
+      padding: 20,
+      marginBottom: 16,
+      borderWidth: 1,
+      borderColor: '#F3F4F6',
     },
     metaTitle: {
-      color: COLORS.info,
-      fontWeight: 'bold',
+      color: '#0A0A0A',
+      fontWeight: '600',
       marginBottom: 12,
       fontSize: 16,
     },
     metaText: {
-      color: COLORS.textSecondary,
+      color: '#6B7280',
       fontSize: 14,
-      marginBottom: 6,
+      marginBottom: 4,
+      fontWeight: '400',
     },
     currentPriceContainer: {
-      backgroundColor: COLORS.bgInfo,
+      backgroundColor: '#FFFFFF',
       borderRadius: 12,
-      padding: 16,
-      marginBottom: 24,
+      padding: 24,
+      marginBottom: 16,
+      borderWidth: 1,
+      borderColor: '#F3F4F6',
+      alignItems: 'center',
     },
     currentPriceLabel: {
-      color: COLORS.accentLight,
-      fontWeight: 'bold',
-      fontSize: 16,
+      color: '#6B7280',
+      fontWeight: '500',
+      fontSize: 14,
+      textAlign: 'center',
+      marginBottom: 8,
     },
     currentPriceValue: {
-      color: COLORS.textPrimary,
-      fontWeight: 'bold',
-      fontSize: 24,
-      marginVertical: 8,
+      color: '#0A0A0A',
+      fontWeight: '700',
+      fontSize: 32,
+      marginBottom: 4,
+      letterSpacing: -0.5,
     },
     currentPriceNote: {
-      color: COLORS.textMuted,
+      color: '#9CA3AF',
       fontSize: 12,
-      marginTop: 4,
+      textAlign: 'center',
+      fontWeight: '400',
     },
     sectionContainer: {
-      marginBottom: 8,
-      backgroundColor: COLORS.primaryDark,
+      marginBottom: 16,
+      backgroundColor: '#FFFFFF',
       borderRadius: 12,
-      padding: 16,
+      padding: 20,
+      borderWidth: 1,
+      borderColor: '#F3F4F6',
     },
     sectionTitle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      color: COLORS.accent,
+      fontSize: 18,
+      fontWeight: '600',
+      color: '#0A0A0A',
       marginBottom: 12,
+      letterSpacing: -0.1,
     },
     sectionText: {
-      color: COLORS.textSecondary,
-      lineHeight: 22,
-      fontSize: 16,
+      color: '#374151',
+      lineHeight: 24,
+      fontSize: 15,
+      fontWeight: '400',
     },
     driversList: {
-      marginTop: 8,
+      marginTop: 4,
     },
     driverItem: {
-      color: COLORS.textSecondary,
+      color: '#374151',
       marginBottom: 8,
       lineHeight: 22,
-      fontSize: 16,
+      fontSize: 15,
+      fontWeight: '400',
+      paddingLeft: 8,
     },
     strategyContainer: {
-      backgroundColor: COLORS.primaryDark,
+      backgroundColor: '#FFFFFF',
       borderRadius: 12,
-      padding: 16,
-      marginTop: 24,
+      padding: 24,
+      marginTop: 16,
+      borderWidth: 1,
+      borderColor: '#F3F4F6',
     },
     strategyHeader: {
-      marginBottom: 12,
+      marginBottom: 20,
+      paddingBottom: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: '#F3F4F6',
     },
     strategyTitle: {
       fontSize: 20,
-      fontWeight: 'bold',
-      color: COLORS.accent,
+      fontWeight: '700',
+      color: '#0A0A0A',
+      letterSpacing: -0.1,
     },
     strategySubtitle: {
-      color: COLORS.textMuted,
-      fontSize: 14,
+      color: '#6B7280',
+      fontSize: 13,
       marginTop: 4,
+      fontWeight: '400',
     },
     directionContainer: {
       flexDirection: 'row',
       alignItems: 'center',
-      marginBottom: 12,
+      justifyContent: 'center',
+      marginBottom: 20,
+      backgroundColor: '#F9FAFB',
+      paddingVertical: 16,
+      paddingHorizontal: 20,
+      borderRadius: 8,
     },
     directionLabel: {
-      color: COLORS.textSecondary,
+      color: '#6B7280',
       fontWeight: '500',
-      fontSize: 16,
+      fontSize: 15,
     },
     directionValue: {
-      fontWeight: 'bold',
-      fontSize: 16,
+      fontWeight: '700',
+      fontSize: 18,
+      letterSpacing: 0.5,
     },
     longDirection: {
-      color: COLORS.longDirection,
+      color: '#059669',
     },
     shortDirection: {
-      color: COLORS.shortDirection,
+      color: '#DC2626',
     },
     rationaleText: {
-      color: COLORS.textSecondary,
-      marginBottom: 16,
-      lineHeight: 22,
-      fontSize: 16,
+      color: '#374151',
+      marginBottom: 24,
+      lineHeight: 24,
+      fontSize: 15,
+      fontWeight: '400',
+      textAlign: 'center',
+      paddingHorizontal: 8,
     },
     validationWarningContainer: {
-      backgroundColor: COLORS.bgWarning,
-      borderRadius: 12,
+      backgroundColor: '#FFFBEB',
+      borderRadius: 8,
       padding: 16,
       marginBottom: 24,
+      borderLeftWidth: 4,
+      borderLeftColor: '#F59E0B',
     },
     validationWarningTitle: {
-      color: COLORS.warning,
-      fontWeight: 'bold',
+      color: '#B45309',
+      fontWeight: '600',
       marginBottom: 8,
-      fontSize: 16,
+      fontSize: 15,
     },
     validationWarningMessage: {
-      color: COLORS.warning,
-      fontSize: 14,
-    },
-    pricePointsContainer: {
-      marginTop: 16,
-    },
-    pricePointCard: {
-      backgroundColor: COLORS.primary,
-      borderRadius: 12,
-      padding: 16,
-      marginBottom: 16,
-    },
-    pricePointTitle: {
-      color: COLORS.accent,
-      fontWeight: '600',
-      marginBottom: 8,
-      fontSize: 16,
-    },
-    stopLossTitle: {
-      color: COLORS.error,
-      fontWeight: '600',
-      marginBottom: 8,
-      fontSize: 16,
-    },
-    takeProfitTitle: {
-      color: COLORS.success,
-      fontWeight: '600',
-      marginBottom: 8,
-      fontSize: 16,
-    },
-    pricePointValue: {
-      color: COLORS.textPrimary,
-      fontWeight: 'bold',
-      fontSize: 20,
-      marginBottom: 8,
-    },
-    pricePointRationale: {
-      color: COLORS.textMuted,
+      color: '#B45309',
       fontSize: 14,
       lineHeight: 20,
     },
+    pricePointsContainer: {
+      marginTop: 20,
+    },
+    pricePointCard: {
+      backgroundColor: '#FAFAFA',
+      borderRadius: 8,
+      padding: 18,
+      marginBottom: 12,
+      borderWidth: 1,
+      borderColor: '#F3F4F6',
+    },
+    pricePointTitle: {
+      color: '#6B7280',
+      fontWeight: '500',
+      marginBottom: 8,
+      fontSize: 13,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+    },
+    stopLossTitle: {
+      color: '#DC2626',
+      fontWeight: '500',
+      marginBottom: 8,
+      fontSize: 13,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+    },
+    takeProfitTitle: {
+      color: '#059669',
+      fontWeight: '500',
+      marginBottom: 8,
+      fontSize: 13,
+      textTransform: 'uppercase',
+      letterSpacing: 0.5,
+    },
+    pricePointValue: {
+      color: '#0A0A0A',
+      fontWeight: '700',
+      fontSize: 24,
+      marginBottom: 8,
+      letterSpacing: -0.3,
+    },
+    pricePointRationale: {
+      color: '#6B7280',
+      fontSize: 14,
+      lineHeight: 20,
+      fontWeight: '400',
+    },
     chartContainer: {
-      marginVertical: 20,
-      height: 500,
-      width: '100%',
-      backgroundColor: COLORS.background,
+      marginVertical: 8,
+      marginHorizontal: 24,
+      height: 400,
+      backgroundColor: '#FFFFFF',
       borderRadius: 12,
       overflow: 'hidden',
       borderWidth: 1,
-      borderColor: COLORS.primaryLight,
+      borderColor: '#F3F4F6',
     },
   });
