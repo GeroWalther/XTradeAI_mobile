@@ -1,10 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState, useRef, useEffect } from 'react';
-import {
-  advancedMarketAnalysis,
-  MarketAnalysis,
-  TradingStrategy,
-} from '../services/marketAnalysisService';
+import { MarketAnalysis, TradingStrategy } from '../types/marketAnalysis';
+import AdvancedMarketAnalysisService from '../services/AdvancedMarketAnalysisService';
 
 // Interface for price validation result
 interface PriceValidation {
@@ -160,26 +157,28 @@ export const useMarketAnalysis = () => {
         setCurrentPrice(null);
 
         console.log(
-          `Starting market analysis for ${asset} (${term}, ${riskLevel})...`
+          `Starting direct OpenAI market analysis for ${asset} (${term}, ${riskLevel})...`
         );
 
-        // Call the advanced market analysis service
-        const result = await advancedMarketAnalysis(asset, term, riskLevel);
+        // Call the direct OpenAI market analysis service
+        const result =
+          await AdvancedMarketAnalysisService.advancedMarketAnalysis(
+            asset,
+            term,
+            riskLevel
+          );
 
         if (result.status === 'success' && result.data) {
           console.log('Full analysis data:', result.data);
 
-          // Check if this is mock data
-          if (result.mock) {
-            setIsMockData(true);
-            console.log('Displaying mock data');
-          }
+          // The new service doesn't return mock data, so set to false
+          setIsMockData(false);
 
           // Get current price from the response
           if (result.data.current_market_price) {
             const price = result.data.current_market_price;
             console.log(
-              `Current ${asset} price from backend:`,
+              `Current ${asset} price from analysis:`,
               price,
               typeof price
             );
@@ -207,18 +206,19 @@ export const useMarketAnalysis = () => {
 
           return result.data;
         } else {
-          // Handle error from backend
-          console.error('Error from backend:', result.message);
+          // Handle error from OpenAI service
+          console.error('Error from OpenAI service:', result.message);
 
-          // If there's a specific error about rate limiting or market data
-          if (
-            result.isRateLimit ||
-            (result.message && result.message.includes('Rate limit exceeded'))
-          ) {
+          // Check for specific OpenAI errors
+          if (result.message && result.message.includes('OpenAI API key')) {
+            throw new Error(
+              'OpenAI API key is invalid or not configured. Please check your API key in constants/env.ts'
+            );
+          } else if (result.message && result.message.includes('rate limit')) {
             // Start a cooldown timer to prevent further requests
             startCooldown(60);
             throw new Error(
-              'Yahoo Finance API rate limit exceeded. Please try again in 60 seconds.'
+              'OpenAI API rate limit exceeded. Please try again in 60 seconds.'
             );
           } else if (result.message && result.message.includes('market data')) {
             throw new Error(

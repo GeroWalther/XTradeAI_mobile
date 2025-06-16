@@ -12,7 +12,13 @@ const RootNavigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={activePaidUser ? 'Home' : 'Onboarding'}>
+        initialRouteName={
+          // for testing purposes, we are not using the onboarding screen
+          // activePaidUser ?
+          'Home'
+          //  :
+          //   'Onboarding'
+        }>
         <Stack.Screen
           name='Home'
           component={HomeScreen}

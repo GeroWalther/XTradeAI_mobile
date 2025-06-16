@@ -1,6 +1,7 @@
+//this file is unused since we are using the OpenAI API directly now.
 import axios from 'axios';
-import { AI_SERVER_URL } from '../constants/env';
-
+//import { AI_SERVER_URL } from '../constants/env';
+const AI_SERVER_URL = 'https://ai-trading-analysis.gw-intech.com';
 // Use the server URL from environment
 const BASE_URL = AI_SERVER_URL;
 console.log('Using server URL:', BASE_URL);

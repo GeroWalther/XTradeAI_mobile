@@ -9,9 +9,10 @@ export default function HomeScreen() {
 
   const { activePaidUser } = useSubscription();
   const navigation = useNavigation<any>();
-  if (!activePaidUser) {
-    navigation.navigate('Onboarding');
-  }
+  //for testing purposes, we are not using the onboarding screen
+  // if (!activePaidUser) {
+  //   navigation.navigate('Onboarding');
+  // }
 
   return (
     <SafeAreaView style={styles(COLORS).container}>

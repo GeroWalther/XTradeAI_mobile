@@ -1,11 +1,5 @@
-// Environment variables
-const SERVER_URL = 'https://ai-trading-analysis.gw-intech.com';
-export const AI_SERVER_URL = SERVER_URL;
+// OpenAI API Key - Replace with your actual key or use environment variable
+export const OPENAI_API_KEY =
+  process.env.OPENAI_API_KEY || 'your-openai-api-key-here';
 
-console.log('Environment URL:', process.env.EXPO_PUBLIC_AI_SERVER_URL);
-console.log('Using Server URL:', SERVER_URL);
-
-// API endpoints
-export const API_ENDPOINTS = {
-  marketAnalysis: '/api/advanced-market-analysis',
-};
+console.log('OpenAI API Key configured:', OPENAI_API_KEY.startsWith('sk-'));

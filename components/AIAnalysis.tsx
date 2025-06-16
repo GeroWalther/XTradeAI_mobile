@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useMarketAnalysis } from '../hooks/useMarketAnalysis';
-import { TradingStrategy } from '../services/marketAnalysisService';
+import { TradingStrategy } from '../types/marketAnalysis';
 import { useTheme } from '../providers/ThemeProvider';
 import { Button } from './ui/Button';
 import TradingViewChart from './TradingViewChart';

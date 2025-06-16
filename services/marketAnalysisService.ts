@@ -1,5 +1,6 @@
+// This file is unused since we are using the OpenAI API directly now.
 import apiClient from './api';
-import { API_ENDPOINTS } from '../constants/env';
+// import { API_ENDPOINTS } from '../constants/env';
 import { ApiResponse } from '../types/api';
 
 // Interface for market analysis request payload
