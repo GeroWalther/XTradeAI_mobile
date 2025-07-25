@@ -4,7 +4,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 
 function useRevenueCat() {
   const queryClient = useQueryClient();
-
   const changeSubStatus = () => {
     queryClient.invalidateQueries({ queryKey: ['customerInfo'] });
   };
@@ -31,7 +30,6 @@ function useRevenueCat() {
         apiKey: 'appl_ICdHUkDsuyvsNNWDwBOMSNddvyt',
       });
     }
-
     const offerings = await Purchases.getOfferings();
     return offerings.current;
   }

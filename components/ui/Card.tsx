@@ -70,13 +70,13 @@ const styles = (COLORS: any) =>
       marginBottom: 16,
     },
     primaryCard: {
-      backgroundColor: COLORS.primary,
+      backgroundColor: COLORS.surface,
     },
     secondaryCard: {
-      backgroundColor: COLORS.primaryLight,
+      backgroundColor: COLORS.surfaceLight,
     },
     darkCard: {
-      backgroundColor: COLORS.primaryDark,
+      backgroundColor: COLORS.primary,
     },
     header: {
       padding: 16,

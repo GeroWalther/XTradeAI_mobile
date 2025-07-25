@@ -267,7 +267,7 @@ export const AIAnalysis = () => {
                 key={item.value}
                 label={item.label}
                 value={item.value}
-                color={'#000000'}
+                color={COLORS.white}
               />
             ))}
           </Picker>
@@ -476,7 +476,7 @@ const styles = (COLORS: any) =>
   StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#FAFAFA',
+      backgroundColor: COLORS.background,
     },
     scrollContent: {
       flexGrow: 1,
@@ -490,35 +490,35 @@ const styles = (COLORS: any) =>
       paddingHorizontal: 24,
       paddingTop: 32,
       paddingBottom: 16,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: COLORS.background,
     },
     title: {
       fontSize: 28,
       fontWeight: '700',
-      color: '#0A0A0A',
+      color: COLORS.white,
       marginBottom: 8,
       letterSpacing: -0.3,
     },
     description: {
-      color: '#6B7280',
+      color: COLORS.textSecondary,
       marginBottom: 0,
       lineHeight: 22,
       fontSize: 15,
       fontWeight: '400',
     },
     selectionsContainer: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: COLORS.surface,
       paddingVertical: 24,
       paddingHorizontal: 24,
       marginTop: 8,
       borderBottomWidth: 1,
-      borderBottomColor: '#F3F4F6',
+      borderBottomColor: COLORS.border,
     },
     pickerContainer: {
       marginBottom: 20,
     },
     pickerLabel: {
-      color: '#0A0A0A',
+      color: COLORS.white,
       marginBottom: 8,
       fontSize: 14,
       fontWeight: '600',
@@ -526,17 +526,17 @@ const styles = (COLORS: any) =>
       letterSpacing: 0.5,
     },
     pickerWrapper: {
-      backgroundColor: '#F9FAFB',
+      backgroundColor: COLORS.surfaceLight,
       borderRadius: 8,
       borderWidth: 1,
-      borderColor: '#E5E7EB',
+      borderColor: COLORS.border,
       minHeight: Platform.OS === 'ios' ? 44 : 50,
       overflow: 'hidden',
     },
     picker: {
       width: '100%',
       backgroundColor: 'transparent',
-      color: '#0A0A0A',
+      color: COLORS.white,
     },
     pickerIOS: {
       backgroundColor: 'transparent',
@@ -544,18 +544,18 @@ const styles = (COLORS: any) =>
     pickerItemStyle: {
       fontSize: 16,
       height: 44,
-      color: '#0A0A0A',
+      color: COLORS.white,
       fontWeight: '500',
     },
     buttonContainer: {
       paddingHorizontal: 24,
       paddingVertical: 24,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: COLORS.background,
       borderBottomWidth: 8,
-      borderBottomColor: '#F3F4F6',
+      borderBottomColor: COLORS.border,
     },
     buttonStyle: {
-      backgroundColor: '#0A0A0A',
+      backgroundColor: COLORS.primary,
     },
     errorContainer: {
       backgroundColor: '#FEF2F2',
@@ -595,12 +595,12 @@ const styles = (COLORS: any) =>
       paddingHorizontal: 24,
     },
     mockDataBanner: {
-      backgroundColor: '#FFFBEB',
+      backgroundColor: COLORS.bgWarning,
       borderRadius: 8,
       padding: 16,
       marginBottom: 24,
       borderLeftWidth: 4,
-      borderLeftColor: '#F59E0B',
+      borderLeftColor: COLORS.warning,
     },
     mockDataText: {
       color: '#B45309',
@@ -610,12 +610,12 @@ const styles = (COLORS: any) =>
     resultsTitle: {
       fontSize: 24,
       fontWeight: '700',
-      color: '#0A0A0A',
+      color: COLORS.white,
       marginBottom: 24,
       letterSpacing: -0.2,
     },
     metaContainer: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: COLORS.surface,
       borderRadius: 12,
       padding: 20,
       marginBottom: 16,
@@ -623,7 +623,7 @@ const styles = (COLORS: any) =>
       borderColor: '#F3F4F6',
     },
     metaTitle: {
-      color: '#0A0A0A',
+      color: COLORS.white,
       fontWeight: '600',
       marginBottom: 12,
       fontSize: 16,
@@ -635,7 +635,7 @@ const styles = (COLORS: any) =>
       fontWeight: '400',
     },
     currentPriceContainer: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: COLORS.surface,
       borderRadius: 12,
       padding: 24,
       marginBottom: 16,
@@ -651,35 +651,35 @@ const styles = (COLORS: any) =>
       marginBottom: 8,
     },
     currentPriceValue: {
-      color: '#0A0A0A',
+      color: COLORS.white,
       fontWeight: '700',
       fontSize: 32,
       marginBottom: 4,
       letterSpacing: -0.5,
     },
     currentPriceNote: {
-      color: '#9CA3AF',
+      color: COLORS.textSecondary,
       fontSize: 12,
       textAlign: 'center',
       fontWeight: '400',
     },
     sectionContainer: {
       marginBottom: 16,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: COLORS.surface,
       borderRadius: 12,
       padding: 20,
       borderWidth: 1,
-      borderColor: '#F3F4F6',
+      borderColor: COLORS.border,
     },
     sectionTitle: {
       fontSize: 18,
       fontWeight: '600',
-      color: '#0A0A0A',
+      color: COLORS.white,
       marginBottom: 12,
       letterSpacing: -0.1,
     },
     sectionText: {
-      color: '#374151',
+      color: COLORS.white,
       lineHeight: 24,
       fontSize: 15,
       fontWeight: '400',
@@ -688,7 +688,7 @@ const styles = (COLORS: any) =>
       marginTop: 4,
     },
     driverItem: {
-      color: '#374151',
+      color: COLORS.white,
       marginBottom: 8,
       lineHeight: 22,
       fontSize: 15,
@@ -696,27 +696,27 @@ const styles = (COLORS: any) =>
       paddingLeft: 8,
     },
     strategyContainer: {
-      backgroundColor: '#FFFFFF',
+      backgroundColor: COLORS.surface,
       borderRadius: 12,
       padding: 24,
       marginTop: 16,
       borderWidth: 1,
-      borderColor: '#F3F4F6',
+      borderColor: COLORS.border,
     },
     strategyHeader: {
       marginBottom: 20,
       paddingBottom: 16,
       borderBottomWidth: 1,
-      borderBottomColor: '#F3F4F6',
+      borderBottomColor: COLORS.border,
     },
     strategyTitle: {
       fontSize: 20,
       fontWeight: '700',
-      color: '#0A0A0A',
+      color: COLORS.white,
       letterSpacing: -0.1,
     },
     strategySubtitle: {
-      color: '#6B7280',
+      color: COLORS.textSecondary,
       fontSize: 13,
       marginTop: 4,
       fontWeight: '400',
@@ -726,13 +726,13 @@ const styles = (COLORS: any) =>
       alignItems: 'center',
       justifyContent: 'center',
       marginBottom: 20,
-      backgroundColor: '#F9FAFB',
+      backgroundColor: COLORS.surfaceLight,
       paddingVertical: 16,
       paddingHorizontal: 20,
       borderRadius: 8,
     },
     directionLabel: {
-      color: '#6B7280',
+      color: COLORS.textSecondary,
       fontWeight: '500',
       fontSize: 15,
     },
@@ -742,13 +742,13 @@ const styles = (COLORS: any) =>
       letterSpacing: 0.5,
     },
     longDirection: {
-      color: '#059669',
+      color: COLORS.success,
     },
     shortDirection: {
-      color: '#DC2626',
+      color: COLORS.error,
     },
     rationaleText: {
-      color: '#374151',
+      color: COLORS.white,
       marginBottom: 24,
       lineHeight: 24,
       fontSize: 15,
@@ -757,21 +757,21 @@ const styles = (COLORS: any) =>
       paddingHorizontal: 8,
     },
     validationWarningContainer: {
-      backgroundColor: '#FFFBEB',
+      backgroundColor: COLORS.bgWarning,
       borderRadius: 8,
       padding: 16,
       marginBottom: 24,
       borderLeftWidth: 4,
-      borderLeftColor: '#F59E0B',
+      borderLeftColor: COLORS.warning,
     },
     validationWarningTitle: {
-      color: '#B45309',
+      color: COLORS.warning,
       fontWeight: '600',
       marginBottom: 8,
       fontSize: 15,
     },
     validationWarningMessage: {
-      color: '#B45309',
+      color: COLORS.warning,
       fontSize: 14,
       lineHeight: 20,
     },
@@ -779,15 +779,15 @@ const styles = (COLORS: any) =>
       marginTop: 20,
     },
     pricePointCard: {
-      backgroundColor: '#FAFAFA',
+      backgroundColor: COLORS.surfaceLight,
       borderRadius: 8,
       padding: 18,
       marginBottom: 12,
       borderWidth: 1,
-      borderColor: '#F3F4F6',
+      borderColor: COLORS.border,
     },
     pricePointTitle: {
-      color: '#6B7280',
+      color: COLORS.textSecondary,
       fontWeight: '500',
       marginBottom: 8,
       fontSize: 13,
@@ -795,7 +795,7 @@ const styles = (COLORS: any) =>
       letterSpacing: 0.5,
     },
     stopLossTitle: {
-      color: '#DC2626',
+      color: COLORS.error,
       fontWeight: '500',
       marginBottom: 8,
       fontSize: 13,
@@ -803,7 +803,7 @@ const styles = (COLORS: any) =>
       letterSpacing: 0.5,
     },
     takeProfitTitle: {
-      color: '#059669',
+      color: COLORS.success,
       fontWeight: '500',
       marginBottom: 8,
       fontSize: 13,
@@ -811,14 +811,14 @@ const styles = (COLORS: any) =>
       letterSpacing: 0.5,
     },
     pricePointValue: {
-      color: '#0A0A0A',
+      color: COLORS.white,
       fontWeight: '700',
       fontSize: 24,
       marginBottom: 8,
       letterSpacing: -0.3,
     },
     pricePointRationale: {
-      color: '#6B7280',
+      color: COLORS.textSecondary,
       fontSize: 14,
       lineHeight: 20,
       fontWeight: '400',
@@ -827,10 +827,10 @@ const styles = (COLORS: any) =>
       marginVertical: 8,
       marginHorizontal: 24,
       height: 400,
-      backgroundColor: '#FFFFFF',
+      backgroundColor: COLORS.surface,
       borderRadius: 12,
       overflow: 'hidden',
       borderWidth: 1,
-      borderColor: '#F3F4F6',
+      borderColor: COLORS.border,
     },
   });

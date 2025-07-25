@@ -48,5 +48,9 @@ export const COLORS = {
   black: '#000000',
   transparent: 'transparent',
   background: '#13203f',
+  surface: '#1e2a4a',
+  surfaceLight: '#2a3a5a',
+  border: '#3a4a6a',
+  text: '#ffffff',
   greenishblue: '#004f6a', //#004f6a
 };

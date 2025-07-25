@@ -198,9 +198,14 @@ const OnboardingScreen = () => {
 
     try {
       setIsLoading(true);
-      const purchaserInfo = await Purchases.purchasePackage(selectedPackage);
+      // TEMPORARILY COMMENTED OUT FOR EXPO GO TESTING
+      // const purchaserInfo = await Purchases.purchasePackage(selectedPackage);
+      // Mock success for testing
+      const mockPurchaserInfo = {
+        customerInfo: { entitlements: { active: { pro: true } } },
+      };
 
-      if (purchaserInfo.customerInfo.entitlements.active.pro) {
+      if (mockPurchaserInfo.customerInfo.entitlements.active.pro) {
         // Get subscription type from package identifier
         const subType = selectedPackage.identifier.includes('yearly')
           ? 'yearly'
