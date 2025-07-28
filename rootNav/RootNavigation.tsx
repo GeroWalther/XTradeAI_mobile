@@ -9,6 +9,7 @@ import HomeScreen from '../screens/HomeScreen';
 import StockValuationScreen from '../screens/StockValuationScreen';
 import AssetComparisonScreen from '../screens/AssetComparisonScreen';
 import OnboardingScreen from '../screens/OnboardingScreen';
+import IndicatorsScreen from '@/screens/IndicatorsScreen';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -68,6 +69,16 @@ const MainTabNavigator = () => {
           title: 'Asset Compare',
           tabBarIcon: ({ color, size }) => (
             <Text style={{ fontSize: size, color }}>⚖️</Text>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='indicators'
+        component={IndicatorsScreen}
+        options={{
+          title: 'Indicators',
+          tabBarIcon: ({ color, size }) => (
+            <Text style={{ fontSize: size, color }}>🔍</Text>
           ),
         }}
       />

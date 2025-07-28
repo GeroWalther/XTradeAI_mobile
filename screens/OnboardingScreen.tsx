@@ -17,9 +17,25 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { useSubscription } from '../providers/SubscriptionProvider';
 import { useTheme } from '../providers/ThemeProvider';
-import { Ionicons } from '@expo/vector-icons';
+
 import useRevenueCat from '../hooks/useRevCat';
-import Purchases from 'react-native-purchases';
+import { DEV_CONFIG } from '../constants/dev';
+import MockPurchases from '../services/mockPurchases';
+
+// Helper function to configure RevenueCat for purchases/restores
+async function configureRevenueCatForPurchases() {
+  const Purchases = require('react-native-purchases').default;
+
+  if (Platform.OS === 'android') {
+    await Purchases.configure({
+      apiKey: process.env.EXPO_PUBLIC_ANDROID_REVCAT_KEY || '',
+    });
+  } else {
+    await Purchases.configure({
+      apiKey: 'appl_ICdHUkDsuyvsNNWDwBOMSNddvyt',
+    });
+  }
+}
 
 const { width, height } = Dimensions.get('window');
 
@@ -53,7 +69,7 @@ const OnboardingScreen = () => {
     ) {
       // Look for the annual package
       const annualPackage = currentOffering.availablePackages.find(
-        (pkg) =>
+        (pkg: any) =>
           pkg.identifier.includes('$rc_annual') ||
           pkg.identifier.includes('yearly')
       );
@@ -198,21 +214,39 @@ const OnboardingScreen = () => {
 
     try {
       setIsLoading(true);
-      // TEMPORARILY COMMENTED OUT FOR EXPO GO TESTING
-      // const purchaserInfo = await Purchases.purchasePackage(selectedPackage);
-      // Mock success for testing
-      const mockPurchaserInfo = {
-        customerInfo: { entitlements: { active: { pro: true } } },
-      };
+      let purchaserInfo;
 
-      if (mockPurchaserInfo.customerInfo.entitlements.active.pro) {
-        // Get subscription type from package identifier
-        const subType = selectedPackage.identifier.includes('yearly')
-          ? 'yearly'
-          : 'weekly';
-        setSubscriptionType(subType);
-        setActivePaidUser(true);
-        navigation.replace('Home');
+      if (DEV_CONFIG.USE_MOCK_PURCHASES) {
+        // Use mock purchases service
+        if (DEV_CONFIG.ENABLE_DEBUG_LOGS) {
+          console.log('🧪 Using Mock RevenueCat for purchase package');
+        }
+        purchaserInfo = await MockPurchases.purchasePackage(selectedPackage);
+
+        if (purchaserInfo.entitlements.active.pro) {
+          // Get subscription type from package identifier
+          const subType = selectedPackage.identifier.includes('yearly')
+            ? 'yearly'
+            : 'weekly';
+          setSubscriptionType(subType);
+          setActivePaidUser(true);
+          navigation.replace('Home');
+        }
+      } else {
+        // Real RevenueCat code for production - dynamic import to avoid native module dependency
+        await configureRevenueCatForPurchases();
+        const Purchases = require('react-native-purchases').default;
+        const purchaseResult = await Purchases.purchasePackage(selectedPackage);
+
+        if (purchaseResult.customerInfo.entitlements.active.pro) {
+          // Get subscription type from package identifier
+          const subType = selectedPackage.identifier.includes('yearly')
+            ? 'yearly'
+            : 'weekly';
+          setSubscriptionType(subType);
+          setActivePaidUser(true);
+          navigation.replace('Home');
+        }
       }
     } catch (e: any) {
       if (!e.userCancelled) {
@@ -231,9 +265,32 @@ const OnboardingScreen = () => {
   const restorePurchases = async () => {
     setIsLoading(true);
     try {
-      const purchaserInfo = await Purchases.restorePurchases();
+      let purchaserInfo;
 
-      if (purchaserInfo.activeSubscriptions.length > 0) {
+      if (DEV_CONFIG.USE_MOCK_PURCHASES) {
+        // Use mock purchases service
+        if (DEV_CONFIG.ENABLE_DEBUG_LOGS) {
+          console.log('🧪 Using Mock RevenueCat for restore purchases');
+        }
+        // Set restore behavior based on dev config
+        const hasRestoredPurchases = DEV_CONFIG.MOCK_HAS_RESTORED_PURCHASES;
+        if (hasRestoredPurchases) {
+          MockPurchases.setMockProAccess(true);
+        }
+        purchaserInfo = await MockPurchases.restorePurchases();
+      } else {
+        // Real RevenueCat code for production - dynamic import to avoid native module dependency
+        await configureRevenueCatForPurchases();
+        const Purchases = require('react-native-purchases').default;
+        purchaserInfo = await Purchases.restorePurchases();
+      }
+
+      // Check for active subscriptions (consistent with purchase flow)
+      const hasActiveSubscription = DEV_CONFIG.USE_MOCK_PURCHASES
+        ? purchaserInfo.activeSubscriptions.length > 0
+        : purchaserInfo.entitlements.active.pro;
+
+      if (hasActiveSubscription) {
         Alert.alert('Success', 'Your subscription has been restored!', [
           {
             text: 'OK',
@@ -337,7 +394,7 @@ const OnboardingScreen = () => {
         <>
           <View style={styles(COLORS).plansContainer}>
             {currentOffering?.availablePackages
-              ?.sort((a, b) => {
+              ?.sort((a: any, b: any) => {
                 // Sort to make weekly package appear first
                 if (a.identifier.includes('$rc_weekly')) return -1;
                 if (b.identifier.includes('$rc_weekly')) return 1;
